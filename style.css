@@ -248,6 +248,7 @@ footer {
         max-width: 46%;
         scale: 85%;
         padding: 0 10px;
+        margin-bottom: -45px;
     }
 
     .card .card-text {
