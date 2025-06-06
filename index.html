@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>My Portfolio</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="page-wrapper">
+        <!-- Sidebar -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h4 class="nav-text m-0">JoshMC</h4>
+                <button class="toggle-btn" aria-label="Toggle sidebar" onclick="toggleSidebar()">
+                    <i class="bi bi-list"></i>
+                </button>
+            </div>
+
+            <ul class="nav nav-pills flex-column mb-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">
+                        <i class="bi bi-house-door-fill"></i>
+                        <span class="nav-text">Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="nav-link" href="#portfolio">
+                        <i class="bi bi-grid-fill"></i>
+                        <span class="nav-text">Portfolio</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="content-wrapper">
+                <!-- Portfolio Section -->
+                <section id="portfolio" class="py-5 bg-light">
+                    <div class="container">
+                        <h2>MCModels Product</h2>
+                        <div class="row g-4">
+                            <!-- Portfolio Cards -->
+                            <div class="col-6 col-md-custom">
+                                <a href="https://mcmodels.net/products/14249/garden-essentials-vol-2-tools"
+                                    target="_blank" style="text-decoration: none; color: inherit;">
+                                    <div class="card h-100">
+                                        <img src="img/keyart/mcmodels/garden_pack/garden_vol_2_Keyart.png"
+                                            class="card-img-top" alt="Project 10">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Garden Essentials Vol 2 - Tools</h5>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-6 col-md-custom">
+                                <a href="https://mcmodels.net/products/14228/garden-essentials-vol-1-foliage-and-bloom"
+                                    target="_blank" style="text-decoration: none; color: inherit;">
+                                    <div class="card h-100">
+                                        <img src="img/keyart/mcmodels/garden_pack/garden_vol_1_Keyart.png"
+                                            class="card-img-top" alt="Project 9">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Garden Essentials Vol 1 - Foliage and Bloom</h5>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-6 col-md-custom">
+                                <a href="https://mcmodels.net/products/13607/tavern-decorations" target="_blank"
+                                    style="text-decoration: none; color: inherit;">
+                                    <div class="card h-100">
+                                        <img src="img/keyart/mcmodels/tavern_decor_keyart.png" class="card-img-top"
+                                            alt="Project 8">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Tavern Decorations</h5>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-6 col-md-custom">
+                                <a href="https://mcmodels.net/products/13063/joshs-christmas-decorations"
+                                    target="_blank" style="text-decoration: none; color: inherit;">
+                                    <div class="card h-100">
+                                        <img src="img/keyart/mcmodels/christmas_decor_keyart.png" class="card-img-top"
+                                            alt="Project 7">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Christmas Decorations</h5>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-6 col-md-custom">
+                                <a href="https://mcmodels.net/products/9043/joshs-halloween-pack" target="_blank"
+                                    style="text-decoration: none; color: inherit;">
+                                    <div class="card h-100">
+                                        <img src="img/keyart/mcmodels/halloween_pack_keyart.png" class="card-img-top"
+                                            alt="Project 6">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Halloween Packs</h5>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-6 col-md-custom">
+                                <a href="https://mcmodels.net/products/9289/furnicraft-pack" target="_blank"
+                                    style="text-decoration: none; color: inherit;">
+                                    <div class="card h-100">
+                                        <img src="img/keyart/mcmodels/furnicraft_keyart.png" class="card-img-top"
+                                            alt="Project 5">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Furnicraft Pack</h5>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-6 col-md-custom">
+                                <a href="https://mcmodels.net/products/10164/picnic-pack" target="_blank"
+                                    style="text-decoration: none; color: inherit;">
+                                    <div class="card h-100">
+                                        <img src="img/keyart/mcmodels/picnic_keyart.png" class="card-img-top"
+                                            alt="Project 4">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Picnic Pack</h5>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-6 col-md-custom">
+                                <a href="https://mcmodels.net/products/10211/joshs-valentines-furniture" target="_blank"
+                                    style="text-decoration: none; color: inherit;">
+                                    <div class="card h-100">
+                                        <img src="img/keyart/mcmodels/valentine_pack_keyart.png" class="card-img-top"
+                                            alt="Project 3">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Valentine Pack</h5>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-6 col-md-custom">
+                                <a href="https://mcmodels.net/products/10575/bamboo-furniture" target="_blank"
+                                    style="text-decoration: none; color: inherit;">
+                                    <div class="card h-100">
+                                        <img src="img/keyart/mcmodels/bamboo_furniture_keyart.png" class="card-img-top"
+                                            alt="Project 2">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Bamboo Furniture</h5>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-6 col-md-custom">
+                                <a href="https://mcmodels.net/products/10612/decorations" target="_blank"
+                                    style="text-decoration: none; color: inherit;">
+                                    <div class="card h-100">
+                                        <img src="img/keyart/mcmodels/decorations_keyart.png" class="card-img-top"
+                                            alt="Project 1">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Decorations++</h5>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Footer -->
+            <footer>
+                <small>JoshMC</small>
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('collapsed');
+        }
+
+        // Optional: Active link highlight (works if you want nav active switching on click)
+        const navLinks = document.querySelectorAll('.sidebar .nav-link');
+        navLinks.forEach(link => {
+            link.addEventListener('click', function () {
+                navLinks.forEach(lnk => lnk.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

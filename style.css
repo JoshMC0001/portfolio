@@ -1,0 +1,131 @@
+html,
+        body {
+            height: 100%;
+            margin: 0;
+        }
+
+        body {
+            display: flex;
+        }
+
+        .page-wrapper {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            min-height: 100vh;
+        }
+
+        /* Sidebar styles */
+        .sidebar {
+            width: 250px;
+            background-color: #343a40;
+            color: white;
+            transition: width 0.5s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar.collapsed {
+            width: 80px;
+        }
+
+        /* Sidebar header */
+        .sidebar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1rem;
+            border-bottom: 1px solid #495057;
+        }
+
+        /* When sidebar collapsed, center toggle button horizontally */
+        .sidebar.collapsed .sidebar-header {
+            justify-content: center;
+            padding-left: 0;
+            padding-right: 0;
+        }
+
+        .sidebar-header .nav-text {
+            margin: 0;
+            font-size: 1.25rem;
+            white-space: nowrap;
+            transition: opacity 0.3s ease;
+        }
+
+        .sidebar.collapsed .sidebar-header .nav-text {
+            display: none;
+        }
+
+        /* Toggle button */
+        .toggle-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.8rem;
+            cursor: pointer;
+            padding: 0;
+            line-height: 1;
+            transition: all 0.3s ease;
+        }
+
+        /* Nav links */
+        .nav-pills .nav-link {
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0.75rem 1rem;
+            white-space: nowrap;
+            transition: background-color 0.3s ease;
+            border-radius: 0;
+        }
+
+        .nav-pills .nav-link:hover,
+        .nav-pills .nav-link.active {
+            background-color: #495057;
+            color: white;
+        }
+
+        /* When collapsed, hide nav text */
+        .sidebar.collapsed .nav-text {
+            display: none;
+        }
+
+        /* When collapsed, center icons */
+        .sidebar.collapsed .nav-link {
+            justify-content: center;
+            padding-left: 0;
+            padding-right: 0;
+        }
+
+        /* Main content styles */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .content-wrapper {
+            flex: 1;
+        }
+
+        /* Footer fix */
+        footer {
+            background-color: #212529;
+            color: white;
+            text-align: center;
+            height: 40px;
+            line-height: 40px;
+            /* vertically center text */
+            margin: 0;
+            padding: 0;
+            user-select: none;
+        }
+
+        /* Responsive for your custom column */
+        @media (min-width: 768px) {
+            .col-md-custom {
+                flex: 0 0 auto;
+                width: 20%;
+            }
+        }
