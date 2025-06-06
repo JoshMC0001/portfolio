@@ -1,131 +1,198 @@
 html,
-        body {
-            height: 100%;
-            margin: 0;
-        }
+body {
+    height: 100%;
+    margin: 0;
+}
 
-        body {
-            display: flex;
-        }
+body {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
 
-        .page-wrapper {
-            display: flex;
-            flex-direction: row;
-            width: 100%;
-            min-height: 100vh;
-        }
+.page-wrapper {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    min-height: 100vh;
+}
 
-        /* Sidebar styles */
-        .sidebar {
-            width: 250px;
-            background-color: #343a40;
-            color: white;
-            transition: width 0.5s ease;
-            display: flex;
-            flex-direction: column;
-        }
+/* Sidebar styles */
+.sidebar-img {
+    width: 20%;
+}
 
-        .sidebar.collapsed {
-            width: 80px;
-        }
+.sidebar {
+    width: 250px;
+    background-color: #343a40;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    /* ✅ Ensures background fills screen */
+    flex-shrink: 0;
+    /* Prevent sidebar from shrinking */
+    transition: width 0.5s ease;
+}
 
-        /* Sidebar header */
-        .sidebar-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 1rem;
-            border-bottom: 1px solid #495057;
-        }
+.sidebar.collapsed {
+    width: 80px;
+}
 
-        /* When sidebar collapsed, center toggle button horizontally */
-        .sidebar.collapsed .sidebar-header {
-            justify-content: center;
-            padding-left: 0;
-            padding-right: 0;
-        }
+/* Sidebar header */
+.sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1rem;
+    border-bottom: 1px solid #495057;
+}
 
-        .sidebar-header .nav-text {
-            margin: 0;
-            font-size: 1.25rem;
-            white-space: nowrap;
-            transition: opacity 0.3s ease;
-        }
+/* When sidebar collapsed, center toggle button horizontally */
+.sidebar.collapsed .sidebar-header {
+    justify-content: center;
+    padding-left: 0;
+    padding-right: 0;
+}
 
-        .sidebar.collapsed .sidebar-header .nav-text {
-            display: none;
-        }
+.sidebar-header .nav-text {
+    margin: 0;
+    font-size: 1.25rem;
+    white-space: nowrap;
+    transition: opacity 0.3s ease;
+}
 
-        /* Toggle button */
-        .toggle-btn {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.8rem;
-            cursor: pointer;
-            padding: 0;
-            line-height: 1;
-            transition: all 0.3s ease;
-        }
+.sidebar.collapsed .sidebar-header .sidebar-img {
+    display: none;
+}
 
-        /* Nav links */
-        .nav-pills .nav-link {
-            color: white;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 0.75rem 1rem;
-            white-space: nowrap;
-            transition: background-color 0.3s ease;
-            border-radius: 0;
-        }
+.sidebar.collapsed .sidebar-header .nav-text {
+    display: none;
+}
 
-        .nav-pills .nav-link:hover,
-        .nav-pills .nav-link.active {
-            background-color: #495057;
-            color: white;
-        }
+/* Toggle button */
+.toggle-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.8rem;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+    transition: all 0.3s ease;
+}
 
-        /* When collapsed, hide nav text */
-        .sidebar.collapsed .nav-text {
-            display: none;
-        }
+/* Nav links */
+.nav-pills .nav-link {
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0.75rem 1rem;
+    white-space: nowrap;
+    transition: background-color 0.3s ease;
+    border-radius: 0;
+}
 
-        /* When collapsed, center icons */
-        .sidebar.collapsed .nav-link {
-            justify-content: center;
-            padding-left: 0;
-            padding-right: 0;
-        }
+.nav-pills .nav-link:hover,
+.nav-pills .nav-link.active {
+    background-color: #495057;
+    color: white;
+}
 
-        /* Main content styles */
-        .main-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
+/* When collapsed, hide nav text */
+.sidebar.collapsed .nav-text {
+    display: none;
+}
 
-        .content-wrapper {
-            flex: 1;
-        }
+/* When collapsed, center icons */
+.sidebar.collapsed .nav-link {
+    justify-content: center;
+    padding-left: 0;
+    padding-right: 0;
+}
 
-        /* Footer fix */
-        footer {
-            background-color: #212529;
-            color: white;
-            text-align: center;
-            height: 40px;
-            line-height: 40px;
-            /* vertically center text */
-            margin: 0;
-            padding: 0;
-            user-select: none;
-        }
+/* Main content styles */
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
 
-        /* Responsive for your custom column */
-        @media (min-width: 768px) {
-            .col-md-custom {
-                flex: 0 0 auto;
-                width: 20%;
+.content-wrapper {
+    flex: 1;
+}
+
+/* Footer fix */
+footer {
+    background-color: #212529;
+    color: white;
+    text-align: center;
+    height: 40px;
+    line-height: 40px;
+    /* vertically center text */
+    margin: 0;
+    padding: 0;
+    user-select: none;
+}
+
+/* MOBILE: Hide sidebar and show topnav */
+@media (max-width: 767.98px) {
+            .sidebar {
+                display: none;
+            }
+
+            .topnav-img {
+                width: 60px;
+            }
+
+            .topnav-name {
+                font-size: 30px;
+            }
+
+            .topnav-mobile {
+                display: flex;
+                background-color: #343a40;
+                padding: 0.5rem 1rem;
+                justify-content: space-between;
+                align-items: center;
+                color: white;
+            }
+
+            .topnav-mobile i {
+                font-size: 25px;
+            }
+
+            .topnav-mobile .nav-link {
+                color: white;
+                padding: 0.5rem 0.75rem;
+                text-decoration: none;
+            }
+
+            .topnav-mobile .nav-link:hover {
+                background-color: #495057;
+                border-radius: 5px;
+            }
+
+            .topnav-mobile .nav-group {
+                display: flex;
+                gap: 10px;
+            }
+
+            .page-wrapper {
+                flex-direction: column;
+            }
+
+            .main-content {
+                width: 100%;
             }
         }
+
+/* CUSTOM: 5 cards per row on medium+ screens */
+@media (min-width: 768px) {
+    .col-md-custom {
+        flex: 0 0 20%;
+        max-width: 20%;
+    }
+}
