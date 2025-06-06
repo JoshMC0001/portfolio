@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>JoshMC - Admin Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="shortcut icon" href="img/profile.png" type="image/x-icon" />
+</head>
+
+<body>
+    <!-- Your existing navbar and sections -->
+
+    <section class="mcmodels other-section py-5">
+        <div class="container">
+            <h1>MCModels</h1>
+            <div class="row row-cols-2 row-cols-md-4 g-4" id="cardsRow">
+                <!-- Existing cards go here dynamically -->
+                <div class="col">
+                    <div class="card h-100 d-flex flex-column">
+                        <a href="">
+                            <img src="img/keyart/mcmodels/garden_pack/garden_vol_2_Keyart.png" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">Garden Essentials Vol 2 - Tools</h5>
+                            </div>
+                        </a>
+                        <div class="card-footer d-flex justify-content-end gap-2">
+                            <button class="btn btn-sm btn-primary edit-btn"><i class="bi bi-pencil"></i></button>
+                            <button class="btn btn-sm btn-danger delete-btn"><i class="bi bi-trash"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Add more existing cards similarly with edit/delete buttons -->
+            </div>
+
+            <!-- Admin Dashboard to Add/Edit Cards -->
+            <hr />
+            <h2 class="mt-5">Admin Dashboard</h2>
+            <form id="cardForm" class="row g-3">
+                <input type="hidden" id="editIndex" value="" />
+                <div class="col-md-4">
+                    <label for="cardTitle" class="form-label">Title</label>
+                    <input type="text" class="form-control" id="cardTitle" placeholder="Card title" required />
+                </div>
+                <div class="col-md-4">
+                    <label for="cardImage" class="form-label">Image URL</label>
+                    <input type="text" class="form-control" id="cardImage" placeholder="Image URL" required />
+                </div>
+                <div class="col-md-4">
+                    <label for="cardLink" class="form-label">Link URL</label>
+                    <input type="text" class="form-control" id="cardLink" placeholder="Link URL" />
+                </div>
+                <div class="col-12">
+                    <button type="submit" class="btn btn-success" id="submitBtn">Add Card</button>
+                    <button type="button" class="btn btn-secondary d-none" id="cancelEditBtn">Cancel Edit</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <script>
+        const cardsRow = document.getElementById('cardsRow');
+        const cardForm = document.getElementById('cardForm');
+        const cardTitle = document.getElementById('cardTitle');
+        const cardImage = document.getElementById('cardImage');
+        const cardLink = document.getElementById('cardLink');
+        const editIndexInput = document.getElementById('editIndex');
+        const submitBtn = document.getElementById('submitBtn');
+        const cancelEditBtn = document.getElementById('cancelEditBtn');
+
+        // Add event listener to handle form submit (Add or Edit)
+        cardForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const title = cardTitle.value.trim();
+            const image = cardImage.value.trim();
+            const link = cardLink.value.trim();
+
+            if (!title || !image) return alert('Please fill out Title and Image URL');
+
+            const editIndex = editIndexInput.value;
+
+            if (editIndex === '') {
+                // Add new card
+                addCard({ title, image, link });
+            } else {
+                // Edit existing card
+                updateCard(editIndex, { title, image, link });
+            }
+
+            resetForm();
+        });
+
+        // Cancel edit
+        cancelEditBtn.addEventListener('click', () => {
+            resetForm();
+        });
+
+        // Function to create card element
+        function createCard({ title, image, link }, index) {
+            const col = document.createElement('div');
+            col.className = 'col';
+
+            const card = document.createElement('div');
+            card.className = 'card h-100 d-flex flex-column';
+
+            const a = document.createElement('a');
+            a.href = link || '#';
+
+            const img = document.createElement('img');
+            img.src = image;
+            img.className = 'card-img-top';
+            img.alt = title;
+
+            const cardBody = document.createElement('div');
+            cardBody.className = 'card-body';
+
+            const h5 = document.createElement('h5');
+            h5.className = 'card-title';
+            h5.textContent = title;
+
+            cardBody.appendChild(h5);
+            a.appendChild(img);
+            a.appendChild(cardBody);
+            card.appendChild(a);
+
+            // Card footer with Edit/Delete buttons
+            const cardFooter = document.createElement('div');
+            cardFooter.className = 'card-footer d-flex justify-content-end gap-2';
+
+            const editBtn = document.createElement('button');
+            editBtn.className = 'btn btn-sm btn-primary edit-btn';
+            editBtn.innerHTML = '<i class="bi bi-pencil"></i>';
+            editBtn.addEventListener('click', () => startEditCard(index));
+
+            const deleteBtn = document.createElement('button');
+            deleteBtn.className = 'btn btn-sm btn-danger delete-btn';
+            deleteBtn.innerHTML = '<i class="bi bi-trash"></i>';
+            deleteBtn.addEventListener('click', () => deleteCard(index));
+
+            cardFooter.appendChild(editBtn);
+            cardFooter.appendChild(deleteBtn);
+
+            card.appendChild(cardFooter);
+            col.appendChild(card);
+
+            return col;
+        }
+
+        // Store cards in memory (can replace with localStorage or backend)
+        let cards = [
+            {
+                title: 'Garden Essentials Vol 2 - Tools',
+                image: 'img/keyart/mcmodels/garden_pack/garden_vol_2_Keyart.png',
+                link: ''
+            },
+            // Add your other initial cards here if you want
+        ];
+
+        // Render cards on the page
+        function renderCards() {
+            cardsRow.innerHTML = '';
+            cards.forEach((cardData, index) => {
+                cardsRow.appendChild(createCard(cardData, index));
+            });
+        }
+
+        // Add a card
+        function addCard(card) {
+            cards.push(card);
+            renderCards();
+        }
+
+        // Start editing a card
+        function startEditCard(index) {
+            const card = cards[index];
+            cardTitle.value = card.title;
+            cardImage.value = card.image;
+            cardLink.value = card.link;
+            editIndexInput.value = index;
+            submitBtn.textContent = 'Update Card';
+            cancelEditBtn.classList.remove('d-none');
+        }
+
+        // Update card
+        function updateCard(index, card) {
+            cards[index] = card;
+            renderCards();
+        }
+
+        // Delete card
+        function deleteCard(index) {
+            if (confirm('Are you sure you want to delete this card?')) {
+                cards.splice(index, 1);
+                renderCards();
+                resetForm();
+            }
+        }
+
+        // Reset form
+        function resetForm() {
+            cardForm.reset();
+            editIndexInput.value = '';
+            submitBtn.textContent = 'Add Card';
+            cancelEditBtn.classList.add('d-none');
+        }
+
+        // Initial render
+        renderCards();
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

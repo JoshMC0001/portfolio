@@ -12,206 +12,207 @@
 </head>
 
 <body>
-    <div class="page-wrapper">
-        <!-- Top nav for mobile -->
-        <nav class="topnav-mobile d-md-none">
-            <div style="display: flex; align-items: center; gap: 8px;">
-                <img src="img/profile.png" class="topnav-img">
-                <strong class="topnav-name">JoshMC</strong>
+    <!--Mobile-->
+    <nav class="mobile navbar bg-dark border-bottom border-body py-2 px-2" data-bs-theme="dark">
+        <div class="container-fluid d-flex align-items-center justify-content w-100">
+            <div class="d-flex align-items-center">
+                <img src="img/profile.png" alt="Logo" width="60" height="60" class="me-2">
+                <span class="text-white fw-bold fs-5">JoshMC</span>
             </div>
-            <div class="nav-group">
-                <a class="nav-link" href="#"><i class="bi bi-house-door-fill"></i></a>
-                <a class="nav-link" href="#portfolio"><i class="bi bi-grid-fill"></i></a>
-                <a class="nav-link" href="https://x.com/RealJoshMC"><i class="bi bi-twitter-x"></i></a>
-            </div>
-        </nav>
-
-        <!-- Sidebar -->
-        <nav class="sidebar" id="sidebar">
-            <div class="sidebar-header">
-                <img src="img/profile.png" class="sidebar-img">
-                <h4 class="nav-text m-0">JoshMC</h4>
-                <button class="toggle-btn" aria-label="Toggle sidebar" onclick="toggleSidebar()">
-                    <i class="bi bi-list"></i>
-                </button>
-            </div>
-
-            <ul class="nav nav-pills flex-column mb-auto">
-                <li class="nav-item">
-                    <a class="nav-link active" href="#">
-                        <i class="bi bi-house-door-fill"></i>
-                        <span class="nav-text">Home</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="nav-link" href="#portfolio">
-                        <i class="bi bi-grid-fill"></i>
-                        <span class="nav-text">Portfolio</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="nav-link" href="https://x.com/RealJoshMC">
-                        <i class="bi bi-twitter-x"></i>
-                        <span class="nav-text">X/Twitter</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-
-        <!-- Main Content -->
-        <div class="main-content">
-            <div class="content-wrapper">
-                <!-- Portfolio Section -->
-                <section id="portfolio" class="py-5 bg-light">
-                    <div class="container">
-                        <h2>MCModels Product</h2>
-                        <div class="row g-4">
-                            <!-- Portfolio Cards -->
-                            <div class="col-4 col-md-custom">
-                                <a href="https://mcmodels.net/products/14249/garden-essentials-vol-2-tools"
-                                    target="_blank" style="text-decoration: none; color: inherit;">
-                                    <div class="card h-100">
-                                        <img src="img/keyart/mcmodels/garden_pack/garden_vol_2_Keyart.png"
-                                            class="card-img-top" alt="Project 10">
-                                        <div class="card-body">
-                                            <h5 class="card-title">Garden Essentials Vol 2 - Tools</h5>
-                                        </div>
-                                    </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a href="" class="nav-link active">Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="mcmodels.html" class="nav-link">MCModels
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="" class="nav-link">Gallery
+                        </a>
+                    </li>
+                    <hr class="divider-gray">
+                    <div class="row justify-content-center">
+                        <div class="col-2">
+                            <li class="nav-item">
+                                <a href="" class="nav-link">
+                                    <i class="bi bi-twitter-x"></i>
                                 </a>
-                            </div>
-                            <div class="col-4 col-md-custom">
-                                <a href="https://mcmodels.net/products/14228/garden-essentials-vol-1-foliage-and-bloom"
-                                    target="_blank" style="text-decoration: none; color: inherit;">
-                                    <div class="card h-100">
-                                        <img src="img/keyart/mcmodels/garden_pack/garden_vol_1_Keyart.png"
-                                            class="card-img-top" alt="Project 9">
-                                        <div class="card-body">
-                                            <h5 class="card-title">Garden Essentials Vol 1 - Foliage and Bloom</h5>
-                                        </div>
-                                    </div>
+                            </li>
+                        </div>
+                        <div class="col-2">
+                            <li class="nav-item">
+                                <a href="" class="nav-link">
+                                    <i class="bi bi-discord"></i>
                                 </a>
-                            </div>
-                            <div class="col-4 col-md-custom">
-                                <a href="https://mcmodels.net/products/13607/tavern-decorations" target="_blank"
-                                    style="text-decoration: none; color: inherit;">
-                                    <div class="card h-100">
-                                        <img src="img/keyart/mcmodels/tavern_decor_keyart.png" class="card-img-top"
-                                            alt="Project 8">
-                                        <div class="card-body">
-                                            <h5 class="card-title">Tavern Decorations</h5>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="col-4 col-md-custom">
-                                <a href="https://mcmodels.net/products/13063/joshs-christmas-decorations"
-                                    target="_blank" style="text-decoration: none; color: inherit;">
-                                    <div class="card h-100">
-                                        <img src="img/keyart/mcmodels/christmas_decor_keyart.png" class="card-img-top"
-                                            alt="Project 7">
-                                        <div class="card-body">
-                                            <h5 class="card-title">Christmas Decorations</h5>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="col-4 col-md-custom">
-                                <a href="https://mcmodels.net/products/9043/joshs-halloween-pack" target="_blank"
-                                    style="text-decoration: none; color: inherit;">
-                                    <div class="card h-100">
-                                        <img src="img/keyart/mcmodels/halloween_pack_keyart.png" class="card-img-top"
-                                            alt="Project 6">
-                                        <div class="card-body">
-                                            <h5 class="card-title">Halloween Packs</h5>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="col-4 col-md-custom">
-                                <a href="https://mcmodels.net/products/9289/furnicraft-pack" target="_blank"
-                                    style="text-decoration: none; color: inherit;">
-                                    <div class="card h-100">
-                                        <img src="img/keyart/mcmodels/furnicraft_keyart.png" class="card-img-top"
-                                            alt="Project 5">
-                                        <div class="card-body">
-                                            <h5 class="card-title">Furnicraft Pack</h5>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="col-4 col-md-custom">
-                                <a href="https://mcmodels.net/products/10164/picnic-pack" target="_blank"
-                                    style="text-decoration: none; color: inherit;">
-                                    <div class="card h-100">
-                                        <img src="img/keyart/mcmodels/picnic_keyart.png" class="card-img-top"
-                                            alt="Project 4">
-                                        <div class="card-body">
-                                            <h5 class="card-title">Picnic Pack</h5>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="col-4 col-md-custom">
-                                <a href="https://mcmodels.net/products/10211/joshs-valentines-furniture" target="_blank"
-                                    style="text-decoration: none; color: inherit;">
-                                    <div class="card h-100">
-                                        <img src="img/keyart/mcmodels/valentine_pack_keyart.png" class="card-img-top"
-                                            alt="Project 3">
-                                        <div class="card-body">
-                                            <h5 class="card-title">Valentine Pack</h5>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="col-4 col-md-custom">
-                                <a href="https://mcmodels.net/products/10575/bamboo-furniture" target="_blank"
-                                    style="text-decoration: none; color: inherit;">
-                                    <div class="card h-100">
-                                        <img src="img/keyart/mcmodels/bamboo_furniture_keyart.png" class="card-img-top"
-                                            alt="Project 2">
-                                        <div class="card-body">
-                                            <h5 class="card-title">Bamboo Furniture</h5>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="col-4 col-md-custom">
-                                <a href="https://mcmodels.net/products/10612/decorations" target="_blank"
-                                    style="text-decoration: none; color: inherit;">
-                                    <div class="card h-100">
-                                        <img src="img/keyart/mcmodels/decorations_keyart.png" class="card-img-top"
-                                            alt="Project 1">
-                                        <div class="card-body">
-                                            <h5 class="card-title">Decorations++</h5>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
+                            </li>
                         </div>
                     </div>
-                </section>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!--PC-->
+    <nav class="pc bg-dark px-3 py-4">
+        <div class="d-flex align-items-center justify-content-between w-100">
+
+            <!-- Left: Logo and Title -->
+            <div class="d-flex align-items-center">
+                <img src="img/profile.png" alt="Logo" width="40" height="40" class="me-2">
+                <span class="text-white fw-bold fs-5">JoshMC</span>
             </div>
 
-            <!-- Footer -->
-            <footer>
-                <small>JoshMC</small>
-            </footer>
+            <!-- Center: Nav Links -->
+            <ul class="nav position-absolute start-50 translate-middle-x">
+                <li class="nav-item">
+                    <a class="nav-link active text-white" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="mcmodels.html">MCModels</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="#">Gallery</a>
+                </li>
+            </ul>
+
+            <!-- Right: Optional space for balance -->
+            <div class="d-flex align-items-center gap-5">
+                <a href="#" class="text-white fs-5"><i class="bi bi-twitter-x"></i></a>
+                <a href="#" class="text-white fs-5"><i class="bi bi-discord"></i></a>
+            </div>
         </div>
-    </div>
+    </nav>
+
+    <section class="landing-screen d-flex justify-content-center align-items-center text-white text-center">
+        <div class="container">
+            <h1 class="display-4 fw-bold">Welcome to JoshMC</h1>
+            <p class="lead">Your Minecraft models hub</p>
+            <a href="#models" class="btn btn-primary mt-3">Explore Models</a>
+        </div>
+    </section>
+
+
+    <section class="mcmodels other-section py-5">
+        <div class="container">
+            <h1>MCModels</h1>
+            <div class="row row-cols-2 row-cols-md-4 g-4" id="cardsRow">
+                <!-- First 4 cards - always visible -->
+                <div class="col">
+                    <div class="card h-100 d-flex flex-column">
+                        <a href="">
+                            <img src="img/keyart/mcmodels/garden_pack/garden_vol_2_Keyart.png" class="card-img-top"
+                                alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">Garden Essentials Vol 2 - Tools</h5>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100 d-flex flex-column">
+                        <a href="">
+                            <img src="img/keyart/mcmodels/garden_pack/garden_vol_1_Keyart.png" class="card-img-top"
+                                alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">Garden Essentials Vol 1 - Foliage & Bloom</h5>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100 d-flex flex-column">
+                        <a href="">
+                            <img src="img/keyart/mcmodels/tavern_decor_keyart.png" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">Tavern Decorations</h5>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100 d-flex flex-column">
+                        <a href="">
+                            <img src="img/keyart/mcmodels/christmas_decor_keyart.png" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">Christmas Decorations</h5>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Extra cards hidden on mobile -->
+                <div class="col d-none d-md-block">
+                    <div class="card h-100 d-flex flex-column">
+                        <a href="">
+                            <img src="img/keyart/mcmodels/garden_pack/garden_vol_2_Keyart.png" class="card-img-top"
+                                alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">Garden Essentials Vol 2 - Tools</h5>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col d-none d-md-block">
+                    <div class="card h-100 d-flex flex-column">
+                        <a href="">
+                            <img src="img/keyart/mcmodels/garden_pack/garden_vol_1_Keyart.png" class="card-img-top"
+                                alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">Garden Essentials Vol 1 - Foliage & Bloom</h5>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col d-none d-md-block">
+                    <div class="card h-100 d-flex flex-column">
+                        <a href="">
+                            <img src="img/keyart/mcmodels/tavern_decor_keyart.png" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">Tavern Decorations</h5>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col d-none d-md-block">
+                    <div class="card h-100 d-flex flex-column">
+                        <a href="">
+                            <img src="img/keyart/mcmodels/christmas_decor_keyart.png" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">Christmas Decorations</h5>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Show More button for mobile -->
+            <div class="text-center mt-4 d-md-none">
+                <a href="mcmodels.html" class="btn bg-dark" style="color: rgb(192, 192, 192);">Show More</a>
+            </div>
+
+            <div class="text-center mt-4 d-none d-md-block">
+                <a href="mcmodels.html" class="btn bg-dark" style="color: rgb(192, 192, 192);">Show More</a>
+            </div>
+
+        </div>
+    </section>
 
     <script>
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            sidebar.classList.toggle('collapsed');
-        }
-
-        // Optional: Active link highlight (works if you want nav active switching on click)
-        const navLinks = document.querySelectorAll('.sidebar .nav-link');
-        navLinks.forEach(link => {
-            link.addEventListener('click', function () {
-                navLinks.forEach(lnk => lnk.classList.remove('active'));
-                this.classList.add('active');
+        const showMoreBtn = document.getElementById('showMoreBtn');
+        showMoreBtn.addEventListener('click', () => {
+            // Get all hidden cards
+            const hiddenCards = document.querySelectorAll('.row .d-none.d-md-block');
+            hiddenCards.forEach(card => {
+                card.classList.remove('d-none');
             });
+            showMoreBtn.style.display = 'none'; // hide button after click
         });
     </script>
 
