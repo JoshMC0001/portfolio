@@ -29,9 +29,7 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    /* ✅ Ensures background fills screen */
     flex-shrink: 0;
-    /* Prevent sidebar from shrinking */
     transition: width 0.5s ease;
 }
 
@@ -48,7 +46,6 @@ body {
     border-bottom: 1px solid #495057;
 }
 
-/* When sidebar collapsed, center toggle button horizontally */
 .sidebar.collapsed .sidebar-header {
     justify-content: center;
     padding-left: 0;
@@ -131,7 +128,6 @@ footer {
     text-align: center;
     height: 40px;
     line-height: 40px;
-    /* vertically center text */
     margin: 0;
     padding: 0;
     user-select: none;
@@ -139,60 +135,123 @@ footer {
 
 /* MOBILE: Hide sidebar and show topnav */
 @media (max-width: 767.98px) {
-            .sidebar {
-                display: none;
-            }
+    .sidebar {
+        display: none;
+    }
 
-            .topnav-img {
-                width: 60px;
-            }
+    .topnav-img {
+        width: 60px;
+    }
 
-            .topnav-name {
-                font-size: 30px;
-            }
+    .topnav-name {
+        font-size: 30px;
+    }
 
-            .topnav-mobile {
-                display: flex;
-                background-color: #343a40;
-                padding: 0.5rem 1rem;
-                justify-content: space-between;
-                align-items: center;
-                color: white;
-            }
+    .topnav-mobile {
+        display: flex;
+        background-color: #343a40;
+        padding: 0.5rem 1rem;
+        justify-content: space-between;
+        align-items: center;
+        color: white;
+    }
 
-            .topnav-mobile i {
-                font-size: 25px;
-            }
+    .topnav-mobile i {
+        font-size: 25px;
+    }
 
-            .topnav-mobile .nav-link {
-                color: white;
-                padding: 0.5rem 0.75rem;
-                text-decoration: none;
-            }
+    .topnav-mobile .nav-link {
+        color: white;
+        padding: 0.5rem 0.75rem;
+        text-decoration: none;
+    }
 
-            .topnav-mobile .nav-link:hover {
-                background-color: #495057;
-                border-radius: 5px;
-            }
+    .topnav-mobile .nav-link:hover {
+        background-color: #495057;
+        border-radius: 5px;
+    }
 
-            .topnav-mobile .nav-group {
-                display: flex;
-                gap: 10px;
-            }
+    .topnav-mobile .nav-group {
+        display: flex;
+        gap: 10px;
+    }
 
-            .page-wrapper {
-                flex-direction: column;
-            }
+    .page-wrapper {
+        flex-direction: column;
+    }
 
-            .main-content {
-                width: 100%;
-            }
-        }
+    .main-content {
+        width: 100%;
+    }
+}
 
-/* CUSTOM: 5 cards per row on medium+ screens */
+/* CUSTOM: 3 cards per row on small/mobile screens */
+@media (max-width: 767.98px) {
+    .col-md-custom {
+        flex: 0 0 33.3333%;
+        max-width: 33.3333%;
+    }
+}
+
+/* CUSTOM: 5 cards per row on desktop/normal view */
 @media (min-width: 768px) {
     .col-md-custom {
         flex: 0 0 20%;
         max-width: 20%;
     }
+}
+
+/* Cards container spacing */
+.row.g-4 > div {
+    padding: 0.75rem; /* margin around cards */
+}
+
+/* Card styling */
+.card {
+    box-sizing: border-box;
+    padding: 1rem;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-width: 180px; /* prevent too narrow cards */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    margin: 0 auto; /* center cards inside their flex container */
+}
+
+/* Show full title, allow wrapping */
+.card .card-title {
+    font-weight: bold;
+    font-size: 1.1rem;
+    white-space: normal; /* allow wrapping */
+    overflow: visible;
+    text-overflow: unset;
+    margin-bottom: 0.5rem;
+    line-height: 1.2;
+}
+
+/* Card text */
+.card .card-text {
+    font-size: 1rem;
+    line-height: 1.2;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/* Responsive text scaling for very small screens */
+@media (max-width: 430px) {
+    .card .card-text {
+        font-size: 0.85rem;
+    }
+    .card .card-title {
+        font-size: 1rem;
+    }
+}
+
+/* Ensure card min-width inside grid */
+.row.g-4 > div > .card {
+    min-width: 180px;
 }
