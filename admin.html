@@ -12,47 +12,34 @@
 </head>
 
 <body>
-    <!-- Your existing navbar and sections -->
 
     <section class="mcmodels other-section py-5">
         <div class="container">
             <h1>MCModels</h1>
-            <div class="row row-cols-2 row-cols-md-4 g-4" id="cardsRow">
-                <!-- Existing cards go here dynamically -->
-                <div class="col">
-                    <div class="card h-100 d-flex flex-column">
-                        <a href="">
-                            <img src="img/keyart/mcmodels/garden_pack/garden_vol_2_Keyart.png" class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title">Garden Essentials Vol 2 - Tools</h5>
-                            </div>
-                        </a>
-                        <div class="card-footer d-flex justify-content-end gap-2">
-                            <button class="btn btn-sm btn-primary edit-btn"><i class="bi bi-pencil"></i></button>
-                            <button class="btn btn-sm btn-danger delete-btn"><i class="bi bi-trash"></i></button>
-                        </div>
-                    </div>
-                </div>
-                <!-- Add more existing cards similarly with edit/delete buttons -->
-            </div>
+            <div class="row row-cols-2 row-cols-md-4 g-4" id="cardsRow"></div>
 
-            <!-- Admin Dashboard to Add/Edit Cards -->
             <hr />
             <h2 class="mt-5">Admin Dashboard</h2>
             <form id="cardForm" class="row g-3">
-                <input type="hidden" id="editIndex" value="" />
+                <input type="hidden" id="editIndex" />
                 <div class="col-md-4">
                     <label for="cardTitle" class="form-label">Title</label>
-                    <input type="text" class="form-control" id="cardTitle" placeholder="Card title" required />
+                    <input type="text" class="form-control" id="cardTitle" required />
                 </div>
+
                 <div class="col-md-4">
-                    <label for="cardImage" class="form-label">Image URL</label>
-                    <input type="text" class="form-control" id="cardImage" placeholder="Image URL" required />
+                    <label for="cardImageSelect" class="form-label">Image URL</label>
+                    <!-- Dropdown instead of input -->
+                    <select class="form-select" id="cardImageSelect" required>
+                        <!-- options inserted dynamically -->
+                    </select>
                 </div>
+
                 <div class="col-md-4">
                     <label for="cardLink" class="form-label">Link URL</label>
-                    <input type="text" class="form-control" id="cardLink" placeholder="Link URL" />
+                    <input type="text" class="form-control" id="cardLink" />
                 </div>
+
                 <div class="col-12">
                     <button type="submit" class="btn btn-success" id="submitBtn">Add Card</button>
                     <button type="button" class="btn btn-secondary d-none" id="cancelEditBtn">Cancel Edit</button>
@@ -65,41 +52,88 @@
         const cardsRow = document.getElementById('cardsRow');
         const cardForm = document.getElementById('cardForm');
         const cardTitle = document.getElementById('cardTitle');
-        const cardImage = document.getElementById('cardImage');
+        const cardImageSelect = document.getElementById('cardImageSelect'); // changed from input to select
         const cardLink = document.getElementById('cardLink');
         const editIndexInput = document.getElementById('editIndex');
         const submitBtn = document.getElementById('submitBtn');
         const cancelEditBtn = document.getElementById('cancelEditBtn');
 
-        // Add event listener to handle form submit (Add or Edit)
-        cardForm.addEventListener('submit', (e) => {
+        // Hardcoded list of image files inside 'img' folder
+        const imageFiles = [
+            'profile.png',
+            'newmodel.png',
+            'example1.jpg',
+            'example2.png',
+            'model1.png',
+            'model2.jpg'
+            // Add more image filenames here as needed
+        ];
+
+        // Populate the image dropdown options
+        function populateImageDropdown() {
+            cardImageSelect.innerHTML = ''; // Clear existing options
+            imageFiles.forEach(filename => {
+                const option = document.createElement('option');
+                option.value = `img/${filename}`;
+                option.textContent = filename;
+                cardImageSelect.appendChild(option);
+            });
+        }
+
+        let cards = [];
+
+        function saveToLocalStorage() {
+            localStorage.setItem('mcmodels_cards', JSON.stringify(cards));
+        }
+
+        function loadFromLocalStorage() {
+            const stored = localStorage.getItem('mcmodels_cards');
+            if (stored) {
+                cards = JSON.parse(stored);
+                renderCards();
+                return true;
+            }
+            return false;
+        }
+
+        async function loadCards() {
+            if (!loadFromLocalStorage()) {
+                try {
+                    const res = await fetch('/mcmodels_cards.json');
+                    if (!res.ok) throw new Error('Network response was not ok');
+                    const data = await res.json();
+                    cards = data;
+                    renderCards();
+                    saveToLocalStorage();
+                } catch (err) {
+                    console.error('Failed to load mcmodels_cards.json:', err);
+                }
+            }
+        }
+
+        cardForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-
             const title = cardTitle.value.trim();
-            const image = cardImage.value.trim();
+            const image = cardImageSelect.value;
             const link = cardLink.value.trim();
-
-            if (!title || !image) return alert('Please fill out Title and Image URL');
-
             const editIndex = editIndexInput.value;
 
+            if (!title || !image) return alert('Please fill in Title and select an Image');
+
             if (editIndex === '') {
-                // Add new card
                 addCard({ title, image, link });
             } else {
-                // Edit existing card
                 updateCard(editIndex, { title, image, link });
             }
 
             resetForm();
+            saveToLocalStorage();
+
+            // Optionally send updated cards to server here
         });
 
-        // Cancel edit
-        cancelEditBtn.addEventListener('click', () => {
-            resetForm();
-        });
+        cancelEditBtn.addEventListener('click', resetForm);
 
-        // Function to create card element
         function createCard({ title, image, link }, index) {
             const col = document.createElement('div');
             col.className = 'col';
@@ -109,6 +143,7 @@
 
             const a = document.createElement('a');
             a.href = link || '#';
+            a.target = '_blank';
 
             const img = document.createElement('img');
             img.src = image;
@@ -127,7 +162,6 @@
             a.appendChild(cardBody);
             card.appendChild(a);
 
-            // Card footer with Edit/Delete buttons
             const cardFooter = document.createElement('div');
             cardFooter.className = 'card-footer d-flex justify-content-end gap-2';
 
@@ -143,24 +177,12 @@
 
             cardFooter.appendChild(editBtn);
             cardFooter.appendChild(deleteBtn);
-
             card.appendChild(cardFooter);
             col.appendChild(card);
 
             return col;
         }
 
-        // Store cards in memory (can replace with localStorage or backend)
-        let cards = [
-            {
-                title: 'Garden Essentials Vol 2 - Tools',
-                image: 'img/keyart/mcmodels/garden_pack/garden_vol_2_Keyart.png',
-                link: ''
-            },
-            // Add your other initial cards here if you want
-        ];
-
-        // Render cards on the page
         function renderCards() {
             cardsRow.innerHTML = '';
             cards.forEach((cardData, index) => {
@@ -168,48 +190,61 @@
             });
         }
 
-        // Add a card
         function addCard(card) {
             cards.push(card);
             renderCards();
         }
 
-        // Start editing a card
         function startEditCard(index) {
             const card = cards[index];
             cardTitle.value = card.title;
-            cardImage.value = card.image;
+
+            // Set dropdown value to existing image URL if possible
+            if (imageFiles.includes(card.image.replace('img/', ''))) {
+                cardImageSelect.value = card.image;
+            } else {
+                // If the image is not in dropdown list, add it temporarily
+                const option = document.createElement('option');
+                option.value = card.image;
+                option.textContent = card.image;
+                cardImageSelect.appendChild(option);
+                cardImageSelect.value = card.image;
+            }
+
             cardLink.value = card.link;
             editIndexInput.value = index;
             submitBtn.textContent = 'Update Card';
             cancelEditBtn.classList.remove('d-none');
         }
 
-        // Update card
         function updateCard(index, card) {
             cards[index] = card;
             renderCards();
         }
 
-        // Delete card
         function deleteCard(index) {
             if (confirm('Are you sure you want to delete this card?')) {
                 cards.splice(index, 1);
                 renderCards();
                 resetForm();
+                saveToLocalStorage();
             }
         }
 
-        // Reset form
         function resetForm() {
             cardForm.reset();
             editIndexInput.value = '';
             submitBtn.textContent = 'Add Card';
             cancelEditBtn.classList.add('d-none');
+            // Reset dropdown to first option or empty
+            if (cardImageSelect.options.length > 0) {
+                cardImageSelect.selectedIndex = 0;
+            }
         }
 
-        // Initial render
-        renderCards();
+        // Initialize
+        populateImageDropdown();
+        loadCards();
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
