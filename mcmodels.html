@@ -107,7 +107,7 @@
         function loadCards() {
             const container = document.getElementById("card-container");
 
-            db.collection("cards").get().then((querySnapshot) => {
+            db.collection("mcmodels_cards").get().then((querySnapshot) => {
                 if (querySnapshot.empty) {
                     container.insertAdjacentHTML('beforeend', `<p class="text-center text-muted">No cards found.</p>`);
                     return;
@@ -144,7 +144,7 @@
 
         window.onload = loadCards;
 
-        db.collection("cards").get().then((querySnapshot) => {
+        db.collection("mcmodels_cards").get().then((querySnapshot) => {
             console.log("Number of cards found:", querySnapshot.size); // Log how many documents fetched
             if (querySnapshot.empty) {
                 container.insertAdjacentHTML('beforeend', `<p class="text-center text-muted">No cards found.</p>`);
