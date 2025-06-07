@@ -43,8 +43,24 @@
       </form>
     </div>
   </section>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
   <script>
+    // Your Firebase config
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT_ID.appspot.com",
+      messagingSenderId: "YOUR_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
     const cardsRow = document.getElementById('cardsRow');
     const cardForm = document.getElementById('cardForm');
     const cardTitle = document.getElementById('cardTitle');
@@ -55,6 +71,7 @@
     const cancelEditBtn = document.getElementById('cancelEditBtn');
 
     let cards = [];
+    let editingDocId = null; // Store Firestore doc id for editing
 
     function renderCards() {
       cardsRow.innerHTML = '';
@@ -113,6 +130,7 @@
       cardTitle.value = card.title;
       cardLink.value = card.link;
       editIndexInput.value = index;
+      editingDocId = card.id;  // Save Firestore doc ID
       submitBtn.textContent = 'Update Card';
       cancelEditBtn.classList.remove('d-none');
     }
@@ -120,16 +138,9 @@
     function resetForm() {
       cardForm.reset();
       editIndexInput.value = '';
+      editingDocId = null;
       submitBtn.textContent = 'Add Card';
       cancelEditBtn.classList.add('d-none');
-    }
-
-    function deleteCard(index) {
-      if (confirm('Delete this card?')) {
-        cards.splice(index, 1);
-        saveCards();
-        resetForm();
-      }
     }
 
     async function uploadImage(file) {
@@ -147,34 +158,42 @@
       return data.secure_url;
     }
 
-    async function saveCards() {
-      localStorage.setItem('mcmodels_cards', JSON.stringify(cards));
-      try {
-        await fetch('/.netlify/functions/cards', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(cards)
-        });
-      } catch (err) {
-        console.error('Server save failed:', err);
+    async function saveCardToFirestore(card, docId = null) {
+      if (docId) {
+        // Update existing
+        await db.collection('mcmodels_cards').doc(docId).set(card);
+      } else {
+        // Add new
+        const docRef = await db.collection('mcmodels_cards').add(card);
+        card.id = docRef.id;
       }
-      renderCards();
+    }
+
+    async function deleteCardFromFirestore(docId) {
+      await db.collection('mcmodels_cards').doc(docId).delete();
     }
 
     async function loadCards() {
-      const local = localStorage.getItem('mcmodels_cards');
-      if (local) {
-        cards = JSON.parse(local);
+      try {
+        const snapshot = await db.collection('mcmodels_cards').get();
+        cards = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         renderCards();
-      } else {
+      } catch (err) {
+        console.error('Failed to load cards from Firestore:', err);
+      }
+    }
+
+    async function deleteCard(index) {
+      if (confirm('Delete this card?')) {
+        const card = cards[index];
         try {
-          const res = await fetch('/.netlify/functions/cards');
-          const data = await res.json();
-          cards = data;
-          localStorage.setItem('mcmodels_cards', JSON.stringify(cards));
+          await deleteCardFromFirestore(card.id);
+          cards.splice(index, 1);
           renderCards();
+          resetForm();
         } catch (err) {
-          console.error('Failed to load from server:', err);
+          console.error('Failed to delete card:', err);
+          alert('Failed to delete card.');
         }
       }
     }
@@ -183,25 +202,35 @@
       e.preventDefault();
       const title = cardTitle.value.trim();
       const link = cardLink.value.trim();
-      const editIndex = editIndexInput.value;
       const file = cardImageUpload.files[0];
 
       try {
-        let imageUrl = file
-          ? await uploadImage(file)
-          : cards[editIndex]?.image;
+        let imageUrl;
 
-        if (!imageUrl) return alert('Image is required.');
+        if (file) {
+          imageUrl = await uploadImage(file);
+        } else if (editingDocId) {
+          const card = cards.find(c => c.id === editingDocId);
+          imageUrl = card?.image;
+        } else {
+          alert('Image is required.');
+          return;
+        }
 
         const newCard = { title, image: imageUrl, link };
 
-        if (editIndex) {
-          cards[editIndex] = newCard;
+        if (editingDocId) {
+          // Update Firestore doc
+          await saveCardToFirestore(newCard, editingDocId);
+          const idx = cards.findIndex(c => c.id === editingDocId);
+          cards[idx] = { ...newCard, id: editingDocId };
         } else {
-          cards.push(newCard);
+          // Add new card to Firestore
+          const docRef = await db.collection('mcmodels_cards').add(newCard);
+          cards.push({ ...newCard, id: docRef.id });
         }
 
-        await saveCards();
+        renderCards();
         resetForm();
       } catch (err) {
         console.error(err);
@@ -210,8 +239,11 @@
     });
 
     cancelEditBtn.addEventListener('click', resetForm);
+
+    // Load cards on page load
     loadCards();
   </script>
+
 </body>
 
 </html>
