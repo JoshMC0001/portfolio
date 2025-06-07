@@ -92,43 +92,44 @@
         const db = firebase.firestore();
 
         function loadCards() {
-            const container = document.getElementById("card-container");
+    const container = document.getElementById("card-container");
 
-            db.collection("mcmodels_cards").get().then((querySnapshot) => {
-                if (querySnapshot.empty) {
-                    container.insertAdjacentHTML('beforeend', `<p class="text-center text-muted">No cards found.</p>`);
-                    return;
-                }
-                console.log("Number of cards found:", querySnapshot.size);
-
-                querySnapshot.forEach((doc) => {
-                    const card = doc.data();
-                    console.log("Loaded card:", card);
-
-                    // Check required fields to prevent errors
-                    if (!card.image || !card.title || !card.link) {
-                        console.warn("Missing fields in card", doc.id, card);
-                        return;
-                    }
-
-                    const cardHTML = `
-                        <div class="col mb-4">
-                            <div class="card h-100">
-                                <img src="${card.imageUrl}" class="card-img-top" alt="${card.title}">
-                                <div class="card-body d-flex flex-column">
-                                    <h5 class="card-title">${card.title}</h5>
-                                    <a href="${card.link}" class="btn btn-primary mt-auto" target="_blank" rel="noopener noreferrer">View Model</a>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    container.insertAdjacentHTML('beforeend', cardHTML);
-                });
-            }).catch((error) => {
-                console.error("Error loading cards:", error);
-                container.insertAdjacentHTML('beforeend', `<p class="text-danger text-center">Failed to load cards. Please try again later.</p>`);
-            });
+    db.collection("mcmodels_cards").get().then((querySnapshot) => {
+        if (querySnapshot.empty) {
+            container.insertAdjacentHTML('beforeend', `<p class="text-center text-muted">No cards found.</p>`);
+            return;
         }
+
+        querySnapshot.forEach((doc) => {
+            const card = doc.data();
+            const title = card.title || 'Untitled';
+            const link = card.link || '#';
+            const image = card.image || card.imageUrl;
+
+            if (!image || !title || !link) {
+                console.warn("Skipping card due to missing fields:", doc.id, card);
+                return;
+            }
+            const cardHTML = `
+                <div class="col d-none d-md-block">
+                    <div class="card h-100 d-flex flex-column">
+                        <a href="${link}">
+                            <img src="${image}" class="card-img-top" alt="${title}">
+                            <div class="card-body">
+                                <h5 class="card-title">${title}</h5>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', cardHTML);
+        });
+    }).catch((error) => {
+        console.error("Error loading cards:", error);
+        container.insertAdjacentHTML('beforeend', `<p class="text-danger text-center">Failed to load cards. Please try again later.</p>`);
+    });
+}
+
 
         window.onload = loadCards;
     </script>
