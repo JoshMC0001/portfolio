@@ -106,7 +106,7 @@
                     console.log("Loaded card:", card);
 
                     // Check required fields to prevent errors
-                    if (!card.imageUrl || !card.title || !card.description || !card.link) {
+                    if (!card.imageUrl || !card.title || !card.link) {
                         console.warn("Missing fields in card", doc.id, card);
                         return;
                     }
