@@ -92,7 +92,7 @@
 
     <section class="landing-screen d-flex justify-content-center align-items-center text-white text-center">
         <div class="container">
-            <a href="#mcmodels" class="btn bg-dark mt-3">Explore Models</a>
+            <a href="#mcmodels" class="btn bg-dark mt-3" style="color: white;">Explore Models</a>
         </div>
     </section>
 
@@ -100,9 +100,14 @@
     <section class="mcmodels other-section py-5">
         <div class="container">
             <h1>MCModels</h1>
-            <div class="row row-cols-2 row-cols-md-4 g-4" id="card-container">
+            <div class="row row-cols-2 row-cols-md-5 g-4" id="card-container">
                 <!-- First 4 cards - always visible -->
             </div>
+
+            <div class="text-center mt-4">
+                <a href="mcmodels.html" id="showMoreBtn" class="btn btn-outline-dark">Show More</a>
+            </div>
+
 
         </div>
     </section>
@@ -129,30 +134,36 @@
 
         async function loadPublicCards() {
             const container = document.getElementById('card-container');
+            const showMoreBtn = document.getElementById('showMoreBtn');
+
             try {
                 const snapshot = await db.collection('mcmodels_cards').orderBy('order', 'asc').get();
-                const cards = snapshot.docs.map(doc => doc.data());
+                const allCards = snapshot.docs.map(doc => doc.data());
+
+                const isMobile = window.innerWidth < 992;
+                const maxCards = isMobile ? 4 : 10;
+                const visibleCards = allCards.slice(0, maxCards);
 
                 container.innerHTML = '';
-                if (cards.length === 0) {
-                    container.innerHTML = '<p class="text-center text-muted">No cards found.</p>';
-                    return;
-                }
 
-                cards.forEach(card => {
+                visibleCards.forEach(card => {
                     container.insertAdjacentHTML('beforeend', `
-        <div class="col">
-          <div class="card h-100 d-flex flex-column">
-            <a href="${card.link || '#'}" target="_blank">
-              <img src="${card.image}" class="card-img-top" alt="${card.title}">
-              <div class="card-body">
-                <h5 class="card-title">${card.title}</h5>
-              </div>
-            </a>
-          </div>
-        </div>
-      `);
+                <div class="col">
+                    <div class="card h-100 d-flex flex-column">
+                        <a href="${card.link || '#'}" target="_blank">
+                            <img src="${card.image}" class="card-img-top" alt="${card.title}">
+                            <div class="card-body">
+                                <h5 class="card-title">${card.title}</h5>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            `);
                 });
+
+                // Show button if there are more cards
+                showMoreBtn.style.display = allCards.length > maxCards ? 'inline-block' : 'none';
+
             } catch (err) {
                 console.error('Failed to load cards:', err);
                 container.innerHTML = '<p class="text-center text-danger">Failed to load cards.</p>';
