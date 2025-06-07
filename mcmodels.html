@@ -102,52 +102,55 @@
     </section>
 
     <script>
-        function renderCards(cards) {
-            const cardsRow = document.getElementById('cardsRow');
-            cardsRow.innerHTML = ''; // Clear any existing cards
-            cards.forEach(model => {
-                const card = document.createElement('div');
-                card.className = 'col';
-                card.innerHTML = `
-                    <div class="card h-100 d-flex flex-column">
-                        <a href="${model.link}">
-                            <img src="${model.image}" class="card-img-top" alt="${model.title}">
-                            <div class="card-body">
-                                <h5 class="card-title">${model.title}</h5>
-                            </div>
-                        </a>
-                    </div>
-                `;
-                cardsRow.appendChild(card);
-            });
+        const cardsRow = document.getElementById('cardsRow');
+
+        function createCard({ title, image, link }) {
+            const col = document.createElement('div');
+            col.className = 'col';
+
+            const card = document.createElement('div');
+            card.className = 'card h-100 d-flex flex-column';
+
+            const a = document.createElement('a');
+            a.href = link || '#';
+            a.target = '_blank';
+
+            const img = document.createElement('img');
+            img.src = image;
+            img.className = 'card-img-top';
+            img.alt = title;
+
+            const cardBody = document.createElement('div');
+            cardBody.className = 'card-body';
+
+            const h5 = document.createElement('h5');
+            h5.className = 'card-title';
+            h5.textContent = title;
+
+            cardBody.appendChild(h5);
+            a.appendChild(img);
+            a.appendChild(cardBody);
+            card.appendChild(a);
+            col.appendChild(card);
+
+            return col;
         }
 
-        function loadCards() {
-            // Try to load cards from localStorage first
-            const localCards = localStorage.getItem('mcmodels_cards');
-            if (localCards) {
-                try {
-                    const cards = JSON.parse(localCards);
-                    renderCards(cards);
-                    return; // Done loading from localStorage
-                } catch (e) {
-                    console.error('Error parsing localStorage cards:', e);
-                }
-            }
+        async function loadCardsFromServer() {
+            try {
+                const res = await fetch('/.netlify/functions/cards');
+                if (!res.ok) throw new Error('Failed to fetch cards');
+                const cards = await res.json();
 
-            // Fallback to fetching the JSON file
-            fetch('mcmodels_cards.json')
-                .then(response => {
-                    if (!response.ok) throw new Error('Network response was not ok');
-                    return response.json();
-                })
-                .then(data => renderCards(data))
-                .catch(error => {
-                    console.error('Error loading model data:', error);
+                cards.forEach(card => {
+                    cardsRow.appendChild(createCard(card));
                 });
+            } catch (err) {
+                console.error(err);
+            }
         }
 
-        window.onload = loadCards;
+        loadCardsFromServer();
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
