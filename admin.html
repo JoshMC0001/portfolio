@@ -2,251 +2,216 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>JoshMC - Admin Dashboard</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" />
-    <link rel="stylesheet" href="style.css" />
-    <link rel="shortcut icon" href="img/profile.png" type="image/x-icon" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>JoshMC - Admin Dashboard</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="shortcut icon" href="img/profile.png" type="image/x-icon" />
 </head>
 
 <body>
-    <!-- Navbar omitted for brevity, same as before -->
+  <section class="mcmodels py-5">
+    <div class="container">
+      <h1>MCModels</h1>
+      <div class="row row-cols-2 row-cols-md-4 g-4" id="cardsRow"></div>
 
-    <section class="mcmodels other-section py-5">
-        <div class="container">
-            <h1>MCModels</h1>
-            <div class="row row-cols-2 row-cols-md-4 g-4" id="cardsRow"></div>
-
-            <hr />
-            <h2 class="mt-5">Admin Dashboard</h2>
-            <form id="cardForm" class="row g-3">
-                <input type="hidden" id="editIndex" />
-                <div class="col-md-4">
-                    <label for="cardTitle" class="form-label">Title</label>
-                    <input type="text" class="form-control" id="cardTitle" required />
-                </div>
-
-                <div class="col-md-4">
-                    <label for="cardImageUpload" class="form-label">Upload Image</label>
-                    <input type="file" class="form-control" id="cardImageUpload" accept="image/*" />
-                </div>
-
-                <div class="col-md-4">
-                    <label for="cardLink" class="form-label">Link URL</label>
-                    <input type="text" class="form-control" id="cardLink" />
-                </div>
-
-                <div class="col-12">
-                    <button type="submit" class="btn btn-success" id="submitBtn">Add Card</button>
-                    <button type="button" class="btn btn-secondary d-none" id="cancelEditBtn">Cancel Edit</button>
-                </div>
-            </form>
+      <hr />
+      <h2 class="mt-5">Admin Dashboard</h2>
+      <form id="cardForm" class="row g-3">
+        <input type="hidden" id="editIndex" />
+        <div class="col-md-4">
+          <label for="cardTitle" class="form-label">Title</label>
+          <input type="text" class="form-control" id="cardTitle" required />
         </div>
-    </section>
 
-    <script>
-        const cardsRow = document.getElementById('cardsRow');
-        const cardForm = document.getElementById('cardForm');
-        const cardTitle = document.getElementById('cardTitle');
-        const cardImageUpload = document.getElementById('cardImageUpload');
-        const cardLink = document.getElementById('cardLink');
-        const editIndexInput = document.getElementById('editIndex');
-        const submitBtn = document.getElementById('submitBtn');
-        const cancelEditBtn = document.getElementById('cancelEditBtn');
+        <div class="col-md-4">
+          <label for="cardImageUpload" class="form-label">Upload Image</label>
+          <input type="file" class="form-control" id="cardImageUpload" accept="image/*" />
+        </div>
 
-        let cards = [];
+        <div class="col-md-4">
+          <label for="cardLink" class="form-label">Link URL</label>
+          <input type="text" class="form-control" id="cardLink" />
+        </div>
 
-        function renderCards() {
-            cardsRow.innerHTML = '';
-            cards.forEach((cardData, index) => {
-                cardsRow.appendChild(createCard(cardData, index));
-            });
-        }
+        <div class="col-12">
+          <button type="submit" class="btn btn-success" id="submitBtn">Add Card</button>
+          <button type="button" class="btn btn-secondary d-none" id="cancelEditBtn">Cancel Edit</button>
+        </div>
+      </form>
+    </div>
+  </section>
 
-        function createCard({ title, image, link }, index) {
-            const col = document.createElement('div');
-            col.className = 'col';
+  <script>
+    const cardsRow = document.getElementById('cardsRow');
+    const cardForm = document.getElementById('cardForm');
+    const cardTitle = document.getElementById('cardTitle');
+    const cardImageUpload = document.getElementById('cardImageUpload');
+    const cardLink = document.getElementById('cardLink');
+    const editIndexInput = document.getElementById('editIndex');
+    const submitBtn = document.getElementById('submitBtn');
+    const cancelEditBtn = document.getElementById('cancelEditBtn');
 
-            const card = document.createElement('div');
-            card.className = 'card h-100 d-flex flex-column';
+    let cards = [];
 
-            const a = document.createElement('a');
-            a.href = link || '#';
-            a.target = '_blank';
+    function renderCards() {
+      cardsRow.innerHTML = '';
+      cards.forEach((card, index) => {
+        const col = document.createElement('div');
+        col.className = 'col';
 
-            const img = document.createElement('img');
-            img.src = image;
-            img.className = 'card-img-top';
-            img.alt = title;
+        const cardEl = document.createElement('div');
+        cardEl.className = 'card h-100 d-flex flex-column';
 
-            const cardBody = document.createElement('div');
-            cardBody.className = 'card-body';
+        const a = document.createElement('a');
+        a.href = card.link || '#';
+        a.target = '_blank';
 
-            const h5 = document.createElement('h5');
-            h5.className = 'card-title';
-            h5.textContent = title;
+        const img = document.createElement('img');
+        img.src = card.image;
+        img.className = 'card-img-top';
+        img.alt = card.title;
 
-            cardBody.appendChild(h5);
-            a.appendChild(img);
-            a.appendChild(cardBody);
-            card.appendChild(a);
+        const cardBody = document.createElement('div');
+        cardBody.className = 'card-body';
 
-            const cardFooter = document.createElement('div');
-            cardFooter.className = 'card-footer d-flex justify-content-end gap-2';
+        const h5 = document.createElement('h5');
+        h5.className = 'card-title';
+        h5.textContent = card.title;
 
-            const editBtn = document.createElement('button');
-            editBtn.className = 'btn btn-sm btn-primary edit-btn';
-            editBtn.innerHTML = '<i class="bi bi-pencil"></i>';
-            editBtn.addEventListener('click', () => startEditCard(index));
+        cardBody.appendChild(h5);
+        a.appendChild(img);
+        a.appendChild(cardBody);
+        cardEl.appendChild(a);
 
-            const deleteBtn = document.createElement('button');
-            deleteBtn.className = 'btn btn-sm btn-danger delete-btn';
-            deleteBtn.innerHTML = '<i class="bi bi-trash"></i>';
-            deleteBtn.addEventListener('click', () => deleteCard(index));
+        const cardFooter = document.createElement('div');
+        cardFooter.className = 'card-footer d-flex justify-content-end gap-2';
 
-            cardFooter.appendChild(editBtn);
-            cardFooter.appendChild(deleteBtn);
-            card.appendChild(cardFooter);
-            col.appendChild(card);
+        const editBtn = document.createElement('button');
+        editBtn.className = 'btn btn-sm btn-primary';
+        editBtn.innerHTML = '<i class="bi bi-pencil"></i>';
+        editBtn.onclick = () => startEdit(index);
 
-            return col;
-        }
+        const deleteBtn = document.createElement('button');
+        deleteBtn.className = 'btn btn-sm btn-danger';
+        deleteBtn.innerHTML = '<i class="bi bi-trash"></i>';
+        deleteBtn.onclick = () => deleteCard(index);
 
-        function addCard(card) {
-            cards.push(card);
-            renderCards();
-        }
+        cardFooter.appendChild(editBtn);
+        cardFooter.appendChild(deleteBtn);
+        cardEl.appendChild(cardFooter);
 
-        function startEditCard(index) {
-            const card = cards[index];
-            cardTitle.value = card.title;
-            cardLink.value = card.link;
-            editIndexInput.value = index;
-            submitBtn.textContent = 'Update Card';
-            cancelEditBtn.classList.remove('d-none');
-        }
+        col.appendChild(cardEl);
+        cardsRow.appendChild(col);
+      });
+    }
 
-        function updateCard(index, card) {
-            cards[index] = card;
-            renderCards();
-        }
+    function startEdit(index) {
+      const card = cards[index];
+      cardTitle.value = card.title;
+      cardLink.value = card.link;
+      editIndexInput.value = index;
+      submitBtn.textContent = 'Update Card';
+      cancelEditBtn.classList.remove('d-none');
+    }
 
-        function deleteCard(index) {
-            if (confirm('Are you sure you want to delete this card?')) {
-                cards.splice(index, 1);
-                renderCards();
-                resetForm();
-                saveToLocalStorage();
-                saveToServer();
-            }
-        }
+    function resetForm() {
+      cardForm.reset();
+      editIndexInput.value = '';
+      submitBtn.textContent = 'Add Card';
+      cancelEditBtn.classList.add('d-none');
+    }
 
-        function resetForm() {
-            cardForm.reset();
-            editIndexInput.value = '';
-            submitBtn.textContent = 'Add Card';
-            cancelEditBtn.classList.add('d-none');
-        }
+    function deleteCard(index) {
+      if (confirm('Delete this card?')) {
+        cards.splice(index, 1);
+        saveCards();
+        resetForm();
+      }
+    }
 
-        function saveToLocalStorage() {
-            localStorage.setItem('mcmodels_cards', JSON.stringify(cards));
-        }
+    async function uploadImage(file) {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('upload_preset', 'unsigned_keyart');
 
-        function loadFromLocalStorage() {
-            const stored = localStorage.getItem('mcmodels_cards');
-            if (stored) {
-                cards = JSON.parse(stored);
-                renderCards();
-                return true;
-            }
-            return false;
-        }
+      const res = await fetch('https://api.cloudinary.com/v1_1/djsxsmzhr/upload', {
+        method: 'POST',
+        body: formData
+      });
 
-        async function saveToServer() {
-            try {
-                await fetch('/.netlify/functions/cards', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(cards),
-                });
-            } catch (error) {
-                console.error('Failed to save cards on server:', error);
-            }
-        }
+      if (!res.ok) throw new Error('Upload failed');
+      const data = await res.json();
+      return data.secure_url;
+    }
 
-        async function loadCards() {
-            if (!loadFromLocalStorage()) {
-                try {
-                    const res = await fetch('/.netlify/functions/cards');
-                    if (!res.ok) throw new Error('Network response was not ok');
-                    const data = await res.json();
-                    cards = data;
-                    renderCards();
-                    saveToLocalStorage();
-                } catch (err) {
-                    console.error('Failed to load cards from server:', err);
-                }
-            }
-        }
-
-        async function uploadImage(file) {
-            const formData = new FormData();
-            formData.append('file', file);
-
-            const res = await fetch('/.netlify/functions/uploadImage', {
-                method: 'POST',
-                body: formData
-            });
-
-            if (!res.ok) throw new Error('Image upload failed');
-            const data = await res.json();
-            return data.url;
-        }
-
-        cardForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-
-            const title = cardTitle.value.trim();
-            const link = cardLink.value.trim();
-            const editIndex = editIndexInput.value;
-            const file = cardImageUpload.files[0];
-
-            if (!title) return alert('Please enter a title');
-            if (!file && editIndex === '') return alert('Please select an image to upload');
-
-            let imageUrl = '';
-
-            try {
-                if (file) {
-                    imageUrl = await uploadImage(file);
-                } else if (editIndex !== '') {
-                    imageUrl = cards[editIndex].image; // Keep existing image during edit
-                }
-            } catch (err) {
-                return alert('Failed to upload image.');
-            }
-
-            const cardData = { title, image: imageUrl, link };
-
-            if (editIndex === '') {
-                addCard(cardData);
-            } else {
-                updateCard(editIndex, cardData);
-            }
-
-            resetForm();
-            saveToLocalStorage();
-            await saveToServer();
+    async function saveCards() {
+      localStorage.setItem('mcmodels_cards', JSON.stringify(cards));
+      try {
+        await fetch('/.netlify/functions/cards', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(cards)
         });
+      } catch (err) {
+        console.error('Server save failed:', err);
+      }
+      renderCards();
+    }
 
-        cancelEditBtn.addEventListener('click', resetForm);
+    async function loadCards() {
+      const local = localStorage.getItem('mcmodels_cards');
+      if (local) {
+        cards = JSON.parse(local);
+        renderCards();
+      } else {
+        try {
+          const res = await fetch('/.netlify/functions/cards');
+          const data = await res.json();
+          cards = data;
+          localStorage.setItem('mcmodels_cards', JSON.stringify(cards));
+          renderCards();
+        } catch (err) {
+          console.error('Failed to load from server:', err);
+        }
+      }
+    }
 
-        loadCards();
-    </script>
+    cardForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const title = cardTitle.value.trim();
+      const link = cardLink.value.trim();
+      const editIndex = editIndexInput.value;
+      const file = cardImageUpload.files[0];
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+      try {
+        let imageUrl = file
+          ? await uploadImage(file)
+          : cards[editIndex]?.image;
+
+        if (!imageUrl) return alert('Image is required.');
+
+        const newCard = { title, image: imageUrl, link };
+
+        if (editIndex) {
+          cards[editIndex] = newCard;
+        } else {
+          cards.push(newCard);
+        }
+
+        await saveCards();
+        resetForm();
+      } catch (err) {
+        console.error(err);
+        alert('Error uploading or saving card.');
+      }
+    });
+
+    cancelEditBtn.addEventListener('click', resetForm);
+    loadCards();
+  </script>
 </body>
 
 </html>
