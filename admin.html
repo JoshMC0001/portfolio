@@ -2,100 +2,308 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-
-        .card {
-            cursor: grab;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>JoshMC - Admin Dashboard</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="shortcut icon" href="img/profile.png" type="image/x-icon" />
 </head>
 
 <body>
-    <div class="container py-5">
-        <h1 class="text-center mb-4">Admin Dashboard (Drag to Reorder)</h1>
-        <div id="card-list" class="row g-3"></div>
+  <section class="mcmodels py-5">
+    <div class="container">
+      <h1>MCModels</h1>
+      <div class="row row-cols-2 row-cols-md-4 g-4" id="cardsRow"></div>
+
+      <hr />
+      <h2 class="mt-5">Admin Dashboard</h2>
+      <form id="cardForm" class="row g-3">
+        <input type="hidden" id="editIndex" />
+        <div class="col-md-4">
+          <label for="cardTitle" class="form-label">Title</label>
+          <input type="text" class="form-control" id="cardTitle" required />
+        </div>
+
+        <div class="col-md-4">
+          <label for="cardImageUpload" class="form-label">Upload Image</label>
+          <input type="file" class="form-control" id="cardImageUpload" accept="image/*" />
+        </div>
+
+        <div class="col-md-4">
+          <label for="cardLink" class="form-label">Link URL</label>
+          <input type="text" class="form-control" id="cardLink" />
+        </div>
+
+        <div class="col-12">
+          <button type="submit" class="btn btn-success" id="submitBtn">Add Card</button>
+          <button type="button" class="btn btn-secondary d-none" id="cancelEditBtn">Cancel Edit</button>
+          <button type="button" class="btn btn-primary ms-2" id="saveOrderBtn">Save Order</button>
+        </div>
+      </form>
     </div>
+  </section>
 
-    <script type="module">
-        // Firebase SDK
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-        import { getFirestore, collection, getDocs, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+  <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyDCz7E4DSG9nanQ_fmM9fF8te6TXBpXUA0",
-            authDomain: "portfolio-5ed3f.firebaseapp.com",
-            projectId: "portfolio-5ed3f",
-            storageBucket: "portfolio-5ed3f.firebasestorage.app",
-            messagingSenderId: "127710028877",
-            appId: "1:127710028877:web:bde5c98f7283ee5dbc2804",
-            measurementId: "G-RBDZRPQ2H9"
-        };
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
+  <script>
+    // Your Firebase config
+    const firebaseConfig = {
+      apiKey: "AIzaSyDCz7E4DSG9nanQ_fmM9fF8te6TXBpXUA0",
+      authDomain: "portfolio-5ed3f.firebaseapp.com",
+      projectId: "portfolio-5ed3f",
+      storageBucket: "portfolio-5ed3f.firebasestorage.app",
+      messagingSenderId: "127710028877",
+      appId: "1:127710028877:web:bde5c98f7283ee5dbc2804",
+      measurementId: "G-RBDZRPQ2H9"
+    };
 
-        const cardList = document.getElementById("card-list");
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
 
-        // Load cards from Firestore and display them
-        async function loadCards() {
-            const querySnapshot = await getDocs(collection(db, "cards"));
-            const cards = [];
-            querySnapshot.forEach(docSnap => {
-                cards.push({ id: docSnap.id, ...docSnap.data() });
-            });
+    const cardsRow = document.getElementById('cardsRow');
+    const cardForm = document.getElementById('cardForm');
+    const cardTitle = document.getElementById('cardTitle');
+    const cardImageUpload = document.getElementById('cardImageUpload');
+    const cardLink = document.getElementById('cardLink');
+    const editIndexInput = document.getElementById('editIndex');
+    const submitBtn = document.getElementById('submitBtn');
+    const cancelEditBtn = document.getElementById('cancelEditBtn');
+    const saveOrderBtn = document.getElementById('saveOrderBtn');
 
-            // Sort by order field
-            cards.sort((a, b) => a.order - b.order);
+    let cards = [];
+    let editingDocId = null; // Store Firestore doc id for editing
 
-            // Render cards
-            cards.forEach(card => {
-                const col = document.createElement("div");
-                col.className = "col-md-4";
-                col.innerHTML = `
-          <div class="card" data-id="${card.id}">
-            <div class="card-body">
-              <h5 class="card-title">${card.title}</h5>
-              <p class="card-text">${card.description || ""}</p>
-            </div>
-          </div>
-        `;
-                cardList.appendChild(col);
-            });
+    // Make cardsRow sortable
+    let sortable = new Sortable(cardsRow, {
+      animation: 150,
+      onEnd() {
+        // After drag end, reorder cards array based on DOM order
+        reorderCardsFromDOM();
+      }
+    });
 
-            initSortable();
+    function reorderCardsFromDOM() {
+      const newOrder = [];
+      const cols = cardsRow.querySelectorAll('.col');
+      cols.forEach(col => {
+        const cardId = col.getAttribute('data-id');
+        const card = cards.find(c => c.id === cardId);
+        if (card) newOrder.push(card);
+      });
+      cards = newOrder;
+    }
+
+    function renderCards() {
+      cardsRow.innerHTML = '';
+      cards.forEach((card, index) => {
+        const col = document.createElement('div');
+        col.className = 'col';
+        col.setAttribute('data-id', card.id);
+
+        const cardEl = document.createElement('div');
+        cardEl.className = 'card h-100 d-flex flex-column';
+
+        const a = document.createElement('a');
+        a.href = card.link || '#';
+        a.target = '_blank';
+
+        const img = document.createElement('img');
+        img.src = card.image;
+        img.className = 'card-img-top';
+        img.alt = card.title;
+
+        const cardBody = document.createElement('div');
+        cardBody.className = 'card-body';
+
+        const h5 = document.createElement('h5');
+        h5.className = 'card-title';
+        h5.textContent = card.title;
+
+        cardBody.appendChild(h5);
+        a.appendChild(img);
+        a.appendChild(cardBody);
+        cardEl.appendChild(a);
+
+        const cardFooter = document.createElement('div');
+        cardFooter.className = 'card-footer d-flex justify-content-end gap-2';
+
+        const editBtn = document.createElement('button');
+        editBtn.className = 'btn btn-sm btn-primary';
+        editBtn.innerHTML = '<i class="bi bi-pencil"></i>';
+        editBtn.onclick = () => startEdit(index);
+
+        const deleteBtn = document.createElement('button');
+        deleteBtn.className = 'btn btn-sm btn-danger';
+        deleteBtn.innerHTML = '<i class="bi bi-trash"></i>';
+        deleteBtn.onclick = () => deleteCard(index);
+
+        cardFooter.appendChild(editBtn);
+        cardFooter.appendChild(deleteBtn);
+        cardEl.appendChild(cardFooter);
+
+        col.appendChild(cardEl);
+        cardsRow.appendChild(col);
+      });
+    }
+
+    function startEdit(index) {
+      const card = cards[index];
+      cardTitle.value = card.title;
+      cardLink.value = card.link;
+      editIndexInput.value = index;
+      editingDocId = card.id;  // Save Firestore doc ID
+      submitBtn.textContent = 'Update Card';
+      cancelEditBtn.classList.remove('d-none');
+    }
+
+    function resetForm() {
+      cardForm.reset();
+      editIndexInput.value = '';
+      editingDocId = null;
+      submitBtn.textContent = 'Add Card';
+      cancelEditBtn.classList.add('d-none');
+    }
+
+    async function uploadImage(file) {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('upload_preset', 'unsigned_keyart');
+
+      const res = await fetch('https://api.cloudinary.com/v1_1/djsxsmzhr/upload', {
+        method: 'POST',
+        body: formData
+      });
+
+      if (!res.ok) throw new Error('Upload failed');
+      const data = await res.json();
+      return data.secure_url;
+    }
+
+    async function saveCardToFirestore(card, docId = null) {
+      if (docId) {
+        // Update existing
+        await db.collection('mcmodels_cards').doc(docId).set(card);
+      } else {
+        // Add new
+        const docRef = await db.collection('mcmodels_cards').add(card);
+        card.id = docRef.id;
+      }
+    }
+
+    async function deleteCardFromFirestore(docId) {
+      await db.collection('mcmodels_cards').doc(docId).delete();
+    }
+
+    async function loadCards() {
+      try {
+        const snapshot = await db.collection('mcmodels_cards').get();
+        cards = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+        // Sort cards by 'order' field ascending (if present)
+        cards.sort((a, b) => {
+          if (a.order === undefined) return 1;
+          if (b.order === undefined) return -1;
+          return a.order - b.order;
+        });
+
+        renderCards();
+      } catch (err) {
+        console.error('Failed to load cards from Firestore:', err);
+      }
+    }
+
+    async function deleteCard(index) {
+      if (confirm('Delete this card?')) {
+        const card = cards[index];
+        try {
+          await deleteCardFromFirestore(card.id);
+          cards.splice(index, 1);
+          renderCards();
+          resetForm();
+        } catch (err) {
+          console.error('Failed to delete card:', err);
+          alert('Failed to delete card.');
+        }
+      }
+    }
+
+    cardForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const title = cardTitle.value.trim();
+      const link = cardLink.value.trim();
+      if (!title) return alert('Title is required');
+
+      submitBtn.disabled = true;
+
+      try {
+        let imageUrl = '';
+
+        if (cardImageUpload.files.length > 0) {
+          imageUrl = await uploadImage(cardImageUpload.files[0]);
+        } else if (editingDocId) {
+          // Use existing image URL if editing and no new image uploaded
+          const card = cards.find(c => c.id === editingDocId);
+          imageUrl = card?.image || '';
+        } else {
+          alert('Please upload an image');
+          submitBtn.disabled = false;
+          return;
         }
 
-        // Enable drag-and-drop using SortableJS
-        function initSortable() {
-            new Sortable(cardList, {
-                animation: 150,
-                onEnd: saveOrder
-            });
+        const cardData = { title, link, image: imageUrl };
+
+        if (editingDocId) {
+          // Update existing card
+          await saveCardToFirestore(cardData, editingDocId);
+          const idx = cards.findIndex(c => c.id === editingDocId);
+          if (idx !== -1) {
+            cards[idx] = { id: editingDocId, ...cardData };
+          }
+        } else {
+          // Add new card
+          await saveCardToFirestore(cardData);
+          cards.push(cardData);
         }
 
-        // Save the current order to Firestore
-        async function saveOrder() {
-            const cards = document.querySelectorAll(".card");
-            for (let i = 0; i < cards.length; i++) {
-                const id = cards[i].dataset.id;
-                const docRef = doc(db, "cards", id);
-                await setDoc(docRef, { order: i }, { merge: true });
-            }
+        renderCards();
+        resetForm();
+      } catch (err) {
+        console.error('Failed to save card:', err);
+        alert('Failed to save card.');
+      }
+
+      submitBtn.disabled = false;
+    });
+
+    cancelEditBtn.addEventListener('click', () => {
+      resetForm();
+    });
+
+    // Save order button handler
+    saveOrderBtn.addEventListener('click', async () => {
+      try {
+        reorderCardsFromDOM();
+
+        // Save order index for each card
+        for (let i = 0; i < cards.length; i++) {
+          await db.collection('mcmodels_cards').doc(cards[i].id).update({ order: i });
         }
 
-        // Load cards on page load
-        loadCards();
-    </script>
+        alert('Card order saved!');
+      } catch (err) {
+        console.error('Failed to save card order:', err);
+        alert('Failed to save card order.');
+      }
+    });
+
+    loadCards();
+  </script>
 </body>
 
 </html>
