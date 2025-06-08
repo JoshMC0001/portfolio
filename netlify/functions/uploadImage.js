@@ -1,15 +1,1 @@
-async function uploadImage(file) {
-  const url = 'https://api.cloudinary.com/v1_1/djsxsmzhr/upload';
-  const formData = new FormData();
-  formData.append('file', file);
-  formData.append('upload_preset', 'unsigned_keyart');
-
-  const res = await fetch(url, {
-    method: 'POST',
-    body: formData
-  });
-
-  if (!res.ok) throw new Error('Image upload failed');
-  const data = await res.json();
-  return data.secure_url;
-}
+function _0x4efa(_0x358f7e,_0x30a25b){const _0x4ce2bd=_0x4ce2();return _0x4efa=function(_0x4efadb,_0x1667e0){_0x4efadb=_0x4efadb-0x1f0;let _0x4ea992=_0x4ce2bd[_0x4efadb];return _0x4ea992;},_0x4efa(_0x358f7e,_0x30a25b);}(function(_0x5e57f4,_0x195d49){const _0x1abd9e=_0x4efa,_0x35c8f0=_0x5e57f4();while(!![]){try{const _0x17959a=parseInt(_0x1abd9e(0x1fa))/0x1+-parseInt(_0x1abd9e(0x1fc))/0x2*(-parseInt(_0x1abd9e(0x1f7))/0x3)+-parseInt(_0x1abd9e(0x1fb))/0x4*(parseInt(_0x1abd9e(0x1f9))/0x5)+parseInt(_0x1abd9e(0x1f4))/0x6*(-parseInt(_0x1abd9e(0x1f0))/0x7)+-parseInt(_0x1abd9e(0x1f1))/0x8*(parseInt(_0x1abd9e(0x200))/0x9)+-parseInt(_0x1abd9e(0x1f6))/0xa+parseInt(_0x1abd9e(0x1f5))/0xb;if(_0x17959a===_0x195d49)break;else _0x35c8f0['push'](_0x35c8f0['shift']());}catch(_0x4fbc8c){_0x35c8f0['push'](_0x35c8f0['shift']());}}}(_0x4ce2,0x90207));function _0x4ce2(){const _0x32c6b1=['POST','630AEFNFR','2038280dTWrDL','append','https://api.cloudinary.com/v1_1/djsxsmzhr/upload','63702JiavnL','15252996rQPazv','1519570PcKkcd','2377911IrJYAE','upload_preset','105UxOBnw','708220inTesQ','178072WDhBEt','2gwrvcX','file','json','secure_url','9xVqoql'];_0x4ce2=function(){return _0x32c6b1;};return _0x4ce2();}async function uploadImage(_0x19d4f5){const _0xff607a=_0x4efa,_0x5795cd=_0xff607a(0x1f3),_0x3bd1af=new FormData();_0x3bd1af[_0xff607a(0x1f2)](_0xff607a(0x1fd),_0x19d4f5),_0x3bd1af[_0xff607a(0x1f2)](_0xff607a(0x1f8),'unsigned_keyart');const _0x1c82a9=await fetch(_0x5795cd,{'method':_0xff607a(0x201),'body':_0x3bd1af});if(!_0x1c82a9['ok'])throw new Error('Image\x20upload\x20failed');const _0x23ba27=await _0x1c82a9[_0xff607a(0x1fe)]();return _0x23ba27[_0xff607a(0x1ff)];}
