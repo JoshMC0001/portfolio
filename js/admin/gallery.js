@@ -13,7 +13,6 @@
     let galleryImages = [];
     let editingIndex = null;
 
-    // Initialize SortableJS on galleryRow
     let sortableGallery = new Sortable(galleryRow, {
         animation: 150,
         ghostClass: 'sortable-ghost',
@@ -43,13 +42,11 @@
             const card = document.createElement('div');
             card.className = 'card h-100 d-flex flex-column shadow-sm';
 
-            // Image element
             const imgEl = document.createElement('img');
             imgEl.src = img.imageUrl;
             imgEl.alt = img.title;
             imgEl.className = 'card-img-top';
 
-            // Card body with title and tags
             const cardBody = document.createElement('div');
             cardBody.className = 'card-body d-flex flex-column';
 
@@ -74,7 +71,6 @@
             cardBody.appendChild(tagsEl);
             if (img.link) cardBody.appendChild(linkEl);
 
-            // Card footer with Edit/Delete buttons
             const cardFooter = document.createElement('div');
             cardFooter.className = 'card-footer d-flex justify-content-end gap-2';
 
@@ -110,7 +106,6 @@
         imageLinkInput.value = img.link || '';
         imageUploadInput.value = '';
 
-        // When editing, image upload should NOT be required
         imageUploadInput.required = false;
 
         formSubmitBtn.textContent = 'Save Changes';
@@ -144,7 +139,6 @@
         }
     }
 
-    // Upload image to Cloudinary or your upload service
     async function uploadImage(file) {
         const formData = new FormData();
         formData.append('file', file);
@@ -182,7 +176,6 @@
             }
 
             if (docId) {
-                // Edit mode
                 const imgIndex = galleryImages.findIndex(i => i.id === docId);
                 if (imgIndex === -1) throw new Error('Image not found.');
 
@@ -200,7 +193,6 @@
                 galleryImages[imgIndex] = { ...img, ...updatedData };
                 resetForm();
             } else {
-                // Add mode - image file required
                 if (!file) {
                     alert('Please select an image to upload.');
                     saveGalleryOrderBtn.disabled = false;
@@ -269,15 +261,12 @@
         const tagInput = document.getElementById('imageTags');
         const suggestionsBox = document.getElementById('tagSuggestions');
         const selectedTagsContainer = document.getElementById('selectedTags');
-
-        // You can load your existing tags from Firestore or keep them static for now:
         const availableTags = [
             'skin', '3d-model', 'minecraft', 'decorations', 'furniture', 'weapons'
         ];
 
         let selectedTags = [];
 
-        // Helper to update the visual tags container
         function updateSelectedTags() {
             selectedTagsContainer.innerHTML = '';
             selectedTags.forEach(tag => {
@@ -297,11 +286,9 @@
                 selectedTagsContainer.appendChild(chip);
             });
 
-            // Update the input's value as comma separated for form submission or saving
             tagInput.value = selectedTags.join(', ');
         }
 
-        // Show suggestions matching the input
         function showSuggestions(query) {
             suggestionsBox.innerHTML = '';
             if (!query) {
@@ -335,20 +322,16 @@
             suggestionsBox.style.display = 'block';
         }
 
-        // Event listeners
         tagInput.addEventListener('input', () => {
             const val = tagInput.value.trim();
             showSuggestions(val);
         });
 
-        // Hide suggestions when clicking outside
         document.addEventListener('click', (e) => {
             if (!tagInput.contains(e.target) && !suggestionsBox.contains(e.target)) {
                 suggestionsBox.style.display = 'none';
             }
         });
-
-        // Optional: On form submit, you can get selectedTags array or just use tagInput.value as comma separated
 
     });
 

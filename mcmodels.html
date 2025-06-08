@@ -13,7 +13,6 @@
 
 <body>
     <div class="d-flex flex-column min-vh-100">
-        <!-- Mobile Navbar -->
         <nav class="mobile navbar bg-dark border-bottom border-body py-2 px-2" data-bs-theme="dark">
             <div class="container-fluid d-flex align-items-center justify-content w-100">
                 <div class="d-flex align-items-center">
@@ -33,8 +32,6 @@
                 </div>
             </div>
         </nav>
-
-        <!-- PC Navbar -->
         <nav class="pc bg-dark px-3 py-4">
             <div class="d-flex align-items-center justify-content-between w-100">
                 <div class="d-flex align-items-center">
@@ -49,23 +46,17 @@
             </div>
         </nav>
         <main class="flex-fill">
-            <!-- Cards Section -->
             <h1 class="mt-4 text-center">MCModels Product</h1>
             <section class="mcmodels other-section py-5">
                 <div class="container">
                     <div class="row row-cols-2 row-cols-lg-5 row-cols-xl-12 g-4" id="card-container">
-                        <!-- Cards will be loaded here by Firebase -->
                     </div>
                 </div>
             </section>
         </main>
-
-        <!-- Footer -->
         <footer class="bg-dark text-white py-4 mt-2">
             <div class="container">
                 <div class="row gy-3 justify-content-center">
-
-                    <!-- Quick Links -->
                     <div class="col-md-4">
                         <h5>Quick Links</h5>
                         <ul class="list-unstyled">
@@ -74,8 +65,6 @@
                             <li><a href="gallery.html" class="text-white text-decoration-none">Gallery</a></li>
                         </ul>
                     </div>
-
-                    <!-- Social -->
                     <div class="col-md-4">
                         <h5>Social Media</h5>
                         <ul class="list-unstyled">
@@ -86,22 +75,16 @@
                                         class="bi bi-discord" style="margin-right: 15px;"></i>joshmc0001</a></li>
                     </div>
                 </div>
-
                 <hr class="border-light mt-4">
-
                 <div class="text-center small">
                     &copy; 2025 JoshMC. All rights reserved.
                 </div>
             </div>
         </footer>
     </div>
-
-
-    <!-- Firebase scripts -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
     <script src="js/mcmodels.js"></script>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 

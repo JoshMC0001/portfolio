@@ -28,7 +28,7 @@ function applyFilterAndRender() {
         })
         : galleryImages;
 
-    currentPage = 1; // reset to first page on filter change
+    currentPage = 1;
     renderImageGrid();
     renderPaginationControls();
 }
@@ -50,7 +50,7 @@ function renderImageGrid() {
         col.className = 'col-6 col-sm-4 col-md-4 col-lg-3 d-flex justify-content-center';
 
         const container = document.createElement('div');
-        container.style.width = '100%';  // full width of the column
+        container.style.width = '100%';
         container.style.height = 'auto';
         container.style.display = 'flex';
         container.style.justifyContent = 'center';
@@ -60,8 +60,8 @@ function renderImageGrid() {
         const imgEl = document.createElement('img');
         imgEl.src = img.imageUrl;
         imgEl.alt = img.title;
-        imgEl.style.width = '100%';    // fill container width
-        imgEl.style.height = 'auto';   // maintain aspect ratio
+        imgEl.style.width = '100%'; 
+        imgEl.style.height = 'auto'; 
         imgEl.style.objectFit = 'contain';
         imgEl.style.marginBottom = '6px';
 
@@ -72,11 +72,10 @@ function renderImageGrid() {
 }
 
 function renderPaginationControls() {
-    // Remove old controls first
     let oldControls = document.getElementById('paginationControls');
     if (oldControls) oldControls.remove();
 
-    if (filteredImages.length <= IMAGES_PER_PAGE) return; // no pagination needed
+    if (filteredImages.length <= IMAGES_PER_PAGE) return;
 
     const totalPages = Math.ceil(filteredImages.length / IMAGES_PER_PAGE);
 
@@ -84,9 +83,8 @@ function renderPaginationControls() {
     paginationDiv.id = 'paginationControls';
     paginationDiv.className = 'd-flex justify-content-center align-items-center gap-2 flex-wrap mt-3';
 
-    // Previous button
     const prevBtn = document.createElement('button');
-    prevBtn.className = 'btn btn-secondary'; // changed from 'btn-primary'
+    prevBtn.className = 'btn btn-secondary';
     prevBtn.textContent = 'Previous';
     prevBtn.disabled = currentPage === 1;
     prevBtn.addEventListener('click', () => {
@@ -99,9 +97,7 @@ function renderPaginationControls() {
     });
     paginationDiv.appendChild(prevBtn);
 
-    // Page number buttons
-    // We'll limit the number of buttons shown for usability if there are many pages
-    const maxPageButtons = 7; // max number of page buttons to show at once
+    const maxPageButtons = 7; 
     let startPage = Math.max(1, currentPage - Math.floor(maxPageButtons / 2));
     let endPage = startPage + maxPageButtons - 1;
     if (endPage > totalPages) {
@@ -109,7 +105,6 @@ function renderPaginationControls() {
         startPage = Math.max(1, endPage - maxPageButtons + 1);
     }
 
-    // If startPage > 1, add "1" and "..." before the range
     if (startPage > 1) {
         paginationDiv.appendChild(createPageButton(1));
         if (startPage > 2) {
@@ -126,7 +121,6 @@ function renderPaginationControls() {
         paginationDiv.appendChild(btn);
     }
 
-    // If endPage < totalPages, add "..." and last page button
     if (endPage < totalPages) {
         if (endPage < totalPages - 1) {
             const dots = document.createElement('span');
@@ -137,9 +131,8 @@ function renderPaginationControls() {
         paginationDiv.appendChild(createPageButton(totalPages));
     }
 
-    // Next button
     const nextBtn = document.createElement('button');
-    nextBtn.className = 'btn btn-secondary'; // changed from 'btn-primary'
+    nextBtn.className = 'btn btn-secondary';
     nextBtn.textContent = 'Next';
     nextBtn.disabled = currentPage === totalPages;
     nextBtn.addEventListener('click', () => {
@@ -152,13 +145,12 @@ function renderPaginationControls() {
     });
     paginationDiv.appendChild(nextBtn);
 
-    // Append pagination controls after gallery
     galleryGrid.parentNode.appendChild(paginationDiv);
 }
 
 function createPageButton(pageNumber) {
     const btn = document.createElement('button');
-    btn.className = 'btn btn-outline-secondary'; // gray color
+    btn.className = 'btn btn-outline-secondary';
     btn.textContent = pageNumber;
     btn.addEventListener('click', () => {
         if (pageNumber !== currentPage) {
@@ -171,8 +163,6 @@ function createPageButton(pageNumber) {
     return btn;
 }
 
-
-// Filter change listener
 tagFilter.addEventListener('change', applyFilterAndRender);
 
 document.addEventListener('DOMContentLoaded', loadGalleryImagesOnly);
