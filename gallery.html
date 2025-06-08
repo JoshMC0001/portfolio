@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>JoshMC</title>
+    <title>Gallery</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" />
     <link rel="stylesheet" href="style/style.css" />
@@ -29,7 +29,6 @@
                         <li class="nav-item"><a href="index.html" class="nav-link active">Home</a></li>
                         <li class="nav-item"><a href="mcmodels.html" class="nav-link">MCModels</a></li>
                         <li class="nav-item"><a href="gallery.html" class="nav-link">Gallery</a></li>
-                        <hr class="divider-gray" />
                     </ul>
                 </div>
             </div>
@@ -47,23 +46,29 @@
                     <li class="nav-item"><a class="nav-link text-white" href="mcmodels.html">MCModels</a></li>
                     <li class="nav-item"><a class="nav-link text-white" href="gallery.html">Gallery</a></li>
                 </ul>
-                <div class="d-flex align-items-center gap-5">
-                    <a href="https://x.com/RealJoshMC" class="text-white fs-5"><i class="bi bi-twitter-x"></i></a>
-                    <a href="https://discord.com/users/33579677298511056" class="text-white fs-5"><i
-                            class="bi bi-discord" style="margin-right: 20px;"></i></a>
-                </div>
             </div>
         </nav>
+
+        <!-- Main content (FLEX FILL to push footer down) -->
         <main class="flex-fill">
-            <!-- Cards Section -->
-             <h1 class="mt-4 text-center">MCModels Product</h1>
-            <section class="mcmodels other-section py-5">
-                <div class="container">
-                    <div class="row row-cols-2 row-cols-lg-5 row-cols-xl-12 g-4" id="card-container">
-                        <!-- Cards will be loaded here by Firebase -->
-                    </div>
+            <div class="container-fluid my-4 custom-padding">
+                <h1 class="mb-4 text-center">Gallery</h1>
+
+                <!-- Tag Filter Dropdown -->
+                <div class="mb-4">
+                    <label for="tagFilter" class="form-label">Filter by Tag:</label>
+                    <select id="tagFilter" class="form-select w-auto">
+                        <option value="">-- Show All --</option>
+                        <option value="3d-models">3D Models</option>
+                        <option value="minecraft">Minecraft</option>
+                        <option value="skins">Skins</option>
+                        <option value="furniture">Furniture</option>
+                        <!-- add more tags if needed -->
+                    </select>
                 </div>
-            </section>
+
+                <div id="galleryGrid" class="row g-3"></div>
+            </div>
         </main>
 
         <!-- Footer -->
@@ -85,11 +90,10 @@
                     <div class="col-md-4">
                         <h5>Social Media</h5>
                         <ul class="list-unstyled">
-                            <li><a href="https://x.com/RealJoshMC" class="text-white text-decoration-none"
-                                    style="font-size: 17px;"><i class="bi bi-twitter-x"
-                                        style="margin-right: 10px;"></i>@RealJoshMC</a></li>
-                            <li><a class="text-white text-decoration-none" style="font-size: 17px;"><i
-                                        class="bi bi-discord" style="margin-right: 15px;"></i>joshmc0001</a></li>
+                            <li><a href="https://x.com/RealJoshMC" class="text-white text-decoration-none" style="font-size: 17px;"><i
+                                        class="bi bi-twitter-x" style="margin-right: 10px;"></i>@RealJoshMC</a></li>
+                            <li><a class="text-white text-decoration-none" style="font-size: 17px;"><i class="bi bi-discord"
+                                        style="margin-right: 15px;"></i>joshmc0001</a></li>
                     </div>
                 </div>
 
@@ -102,13 +106,29 @@
         </footer>
     </div>
 
-
-    <!-- Firebase scripts -->
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-    <script src="js/mcmodels.js"></script>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyDCz7E4DSG9nanQ_fmM9fF8te6TXBpXUA0",
+            authDomain: "portfolio-5ed3f.firebaseapp.com",
+            projectId: "portfolio-5ed3f",
+            storageBucket: "portfolio-5ed3f.firebasestorage.app",
+            messagingSenderId: "127710028877",
+            appId: "1:127710028877:web:bde5c98f7283ee5dbc2804",
+            measurementId: "G-RBDZRPQ2H9"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+    </script>
+
+    <script src="js/gallery.js"></script>
 </body>
+
 
 </html>

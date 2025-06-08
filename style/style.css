@@ -10,6 +10,11 @@ body {
     height: 100%;
 }
 
+.custom-padding {
+    padding-left: 12.5rem;
+    padding-right: 12.5rem;
+}
+
 .divider-gray {
     border: none;
     border-top: 2px solid #505050;
@@ -24,7 +29,7 @@ body {
 
 .landing-screen {
     min-height: 300px;
-    background-image: url('img/voxel-background.png');
+    background-image: url('../img/voxel-background.png');
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -33,6 +38,18 @@ body {
 .mcmodels a {
     text-decoration: none;
     color: rgb(109, 109, 109);
+}
+
+.mcmodels>.container-fluid {
+    padding-top: 2rem;
+    padding-left: 4rem;
+    padding-right: 4rem;
+}
+
+.gallery>.container-fluid {
+    padding-top: 2rem;
+    padding-left: 4rem;
+    padding-right: 4rem;
 }
 
 /** PC */
