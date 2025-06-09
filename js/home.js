@@ -50,3 +50,18 @@ async function loadPublicCards() {
 
 loadPublicCards();
 
+let path = window.location.pathname;
+if (path === "/" || path === "/index.html") path = "home";
+const page = path.replace(/\//g, "_");
+
+const pageRef = db.collection("pageViews").doc(page);
+
+pageRef.get().then((doc) => {
+    if (doc.exists) {
+        pageRef.update({ count: firebase.firestore.FieldValue.increment(1) });
+    } else {
+        pageRef.set({ count: 1 });
+    }
+}).catch((error) => {
+    console.error("Error updating view count:", error);
+});

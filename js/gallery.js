@@ -187,3 +187,19 @@ function createPageButton(pageNumber) {
 tagFilter.addEventListener('change', applyFilterAndRender);
 
 document.addEventListener('DOMContentLoaded', loadGalleryImagesOnly);
+
+let path = window.location.pathname;
+if (path === "/" || path === "/gallery.html") path = "gallery";
+const page = path.replace(/\//g, "_");
+
+const pageRef = db.collection("pageViews").doc(page);
+
+pageRef.get().then((doc) => {
+    if (doc.exists) {
+        pageRef.update({ count: firebase.firestore.FieldValue.increment(1) });
+    } else {
+        pageRef.set({ count: 1 });
+    }
+}).catch((error) => {
+    console.error("Error updating view count:", error);
+});
