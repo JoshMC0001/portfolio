@@ -392,38 +392,38 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-const pageNames = ['home', 'mcmodels', 'gallery']; // Add all your tracked pages here
-    const promises = pageNames.map(name => db.collection("pageViews").doc(name).get());
+const pageNames = ['home', 'mcmodels', 'gallery'];
+const promises = pageNames.map(name => db.collection("pageViews").doc(name).get());
 
-    Promise.all(promises).then((docs) => {
-      const labels = [];
-      const counts = [];
+Promise.all(promises).then((docs) => {
+    const labels = [];
+    const counts = [];
 
-      docs.forEach((doc, i) => {
+    docs.forEach((doc, i) => {
         labels.push(pageNames[i]);
         counts.push(doc.exists ? doc.data().count : 0);
-      });
+    });
 
-      const ctx = document.getElementById('visitsChart').getContext('2d');
-      new Chart(ctx, {
+    const ctx = document.getElementById('visitsChart').getContext('2d');
+    new Chart(ctx, {
         type: 'bar',
         data: {
-          labels: labels,
-          datasets: [{
-            label: 'Page Views',
-            data: counts,
-            backgroundColor: 'rgba(54, 162, 235, 0.6)',
-            borderColor: 'rgba(54, 162, 235, 1)',
-            borderWidth: 1
-          }]
+            labels: labels,
+            datasets: [{
+                label: 'Page Views',
+                data: counts,
+                backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
         },
         options: {
-          responsive: true,
-          scales: {
-            y: {
-              beginAtZero: true
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
             }
-          }
         }
-      });
     });
+});

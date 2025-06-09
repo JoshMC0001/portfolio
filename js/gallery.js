@@ -153,7 +153,7 @@ function renderPaginationControls() {
     }
 
     const nextBtn = document.createElement('button');
-    nextBtn.className = 'btn btn-secondary'; 
+    nextBtn.className = 'btn btn-secondary';
     nextBtn.textContent = 'Next';
     nextBtn.disabled = currentPage === totalPages;
     nextBtn.addEventListener('click', () => {
@@ -189,7 +189,7 @@ tagFilter.addEventListener('change', applyFilterAndRender);
 document.addEventListener('DOMContentLoaded', loadGalleryImagesOnly);
 
 let path = window.location.pathname;
-if (path === "/" || path === "/gallery.html") path = "gallery";
+if (path === "/gallery.html") path = "gallery";
 const page = path.replace(/\//g, "_");
 
 const pageRef = db.collection("pageViews").doc(page);
