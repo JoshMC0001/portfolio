@@ -43,20 +43,29 @@ async function loadPublicCards() {
   }
 }
 
-loadPublicCards();
+async function incrementPageView() {
+  let path = window.location.pathname;
+  if (path === "/mcmodels" || path === "/mcmodels.html") path = "mcmodels";
+  const page = path.replace(/\//g, "_");
 
-let path = window.location.pathname;
-if (path === "/" || path === "/mcmodels.html") path = "mcmodels";
-const page = path.replace(/\//g, "_");
+  const pageRef = db.collection("pageViews").doc(page);
 
-const pageRef = db.collection("pageViews").doc(page);
-
-pageRef.get().then((doc) => {
-  if (doc.exists) {
-    pageRef.update({ count: firebase.firestore.FieldValue.increment(1) });
-  } else {
-    pageRef.set({ count: 1 });
+  try {
+    const doc = await pageRef.get();
+    if (doc.exists) {
+      await pageRef.update({ count: firebase.firestore.FieldValue.increment(1) });
+      console.log(`Incremented view count for page: ${page}`);
+    } else {
+      await pageRef.set({ count: 1 });
+      console.log(`Created view count doc and set to 1 for page: ${page}`);
+    }
+  } catch (error) {
+    console.error("Error updating view count:", error);
   }
-}).catch((error) => {
-  console.error("Error updating view count:", error);
+}
+
+// Run both on page load
+window.addEventListener('DOMContentLoaded', () => {
+  loadPublicCards();
+  incrementPageView();
 });
