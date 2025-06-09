@@ -1,4 +1,3 @@
-// Your Firebase config
 const firebaseConfig = {
     apiKey: "AIzaSyDCz7E4DSG9nanQ_fmM9fF8te6TXBpXUA0",
     authDomain: "portfolio-5ed3f.firebaseapp.com",
@@ -9,7 +8,6 @@ const firebaseConfig = {
     measurementId: "G-RBDZRPQ2H9"
 };
 
-// Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
@@ -24,9 +22,8 @@ const cancelEditBtn = document.getElementById('cancelEditBtn');
 const saveOrderBtn = document.getElementById('saveOrderBtn');
 
 let cards = [];
-let editingDocId = null; // Store Firestore doc id for editing
+let editingDocId = null;
 
-// Make cardsRow sortable with SortableJS
 let sortable = new Sortable(cardsRow, {
     animation: 150,
     onEnd() {
@@ -163,7 +160,6 @@ async function loadCards() {
         const snapshot = await db.collection('mcmodels_cards').get();
         cards = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
-        // Sort by order if present
         cards.sort((a, b) => {
             if (a.order === undefined) return 1;
             if (b.order === undefined) return -1;
@@ -240,7 +236,6 @@ cancelEditBtn.addEventListener('click', () => {
     resetForm();
 });
 
-// Save order button handler
 saveOrderBtn.addEventListener('click', async () => {
     try {
         reorderCardsFromDOM();
@@ -272,7 +267,6 @@ function logout() {
     });
 }
 
-// Fetch total card count
 function fetchCardCountFromFirestore() {
     db.collection("mcmodels_cards").get()
         .then((querySnapshot) => {
@@ -348,14 +342,14 @@ const latestCardLink = document.getElementById('latestCardLink');
 
 function fetchLatestMCModel() {
     db.collection('mcmodels_cards')
-        .orderBy('order') // Optional: to ensure order matters
+        .orderBy('order')
         .limit(1)
         .get()
         .then(snapshot => {
             if (!snapshot.empty) {
                 const doc = snapshot.docs[0].data();
                 latestCardTitle.textContent = doc.title || 'No title';
-                latestCardImage.src = doc.image || 'img/default.jpg';  // ✅ fixed here
+                latestCardImage.src = doc.image || 'img/default.jpg';
                 latestCardLink.href = doc.link || '#';
             }
         })
@@ -378,4 +372,22 @@ db.collection('siteSettings').doc('commissions').get().then(doc => {
 commissionToggle.addEventListener('change', () => {
     const isOpen = commissionToggle.checked;
     db.collection('siteSettings').doc('commissions').set({ open: isOpen });
+});
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    const logoutBtn = document.getElementById('logoutBtn');
+
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', () => {
+            firebase.auth().signOut()
+                .then(() => {
+                    window.location.href = 'login.html';
+                })
+                .catch((error) => {
+                    console.error('Logout error:', error);
+                    alert('Logout failed. Please try again.');
+                });
+        });
+    }
 });

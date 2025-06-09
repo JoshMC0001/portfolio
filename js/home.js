@@ -1,5 +1,3 @@
-
-// Your Firebase configuration object here
 const firebaseConfig = {
     apiKey: "AIzaSyDCz7E4DSG9nanQ_fmM9fF8te6TXBpXUA0",
     authDomain: "portfolio-5ed3f.firebaseapp.com",
@@ -10,7 +8,6 @@ const firebaseConfig = {
     measurementId: "G-RBDZRPQ2H9"
 };
 
-// Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
@@ -43,7 +40,6 @@ async function loadPublicCards() {
             `);
         });
 
-        // Show button if there are more cards
         showMoreBtn.style.display = allCards.length > maxCards ? 'inline-block' : 'none';
 
     } catch (err) {

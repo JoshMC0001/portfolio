@@ -69,14 +69,12 @@ function renderImageGrid() {
         imgEl.src = img.imageUrl;
         imgEl.alt = img.title;
         imgEl.className = 'img-fluid rounded shadow-sm';
-        imgEl.style.cursor = 'pointer';  // Change cursor to pointer
+        imgEl.style.cursor = 'pointer';
 
-        // Add click event to open modal and show this image
         imgEl.addEventListener('click', () => {
             const modalImage = document.getElementById('modalImage');
             modalImage.src = img.imageUrl;
             modalImage.alt = img.title;
-            // Show Bootstrap modal
             const imageModal = new bootstrap.Modal(document.getElementById('imageModal'));
             imageModal.show();
         });
@@ -95,11 +93,10 @@ tagFilter.addEventListener('change', applyFilterAndRender);
 loadGalleryImagesOnly();
 
 function renderPaginationControls() {
-    // Remove old controls first
     let oldControls = document.getElementById('paginationControls');
     if (oldControls) oldControls.remove();
 
-    if (filteredImages.length <= IMAGES_PER_PAGE) return; // no pagination needed
+    if (filteredImages.length <= IMAGES_PER_PAGE) return;
 
     const totalPages = Math.ceil(filteredImages.length / IMAGES_PER_PAGE);
 
@@ -107,9 +104,8 @@ function renderPaginationControls() {
     paginationDiv.id = 'paginationControls';
     paginationDiv.className = 'd-flex justify-content-center align-items-center gap-2 flex-wrap mt-3';
 
-    // Previous button
     const prevBtn = document.createElement('button');
-    prevBtn.className = 'btn btn-secondary'; // changed from 'btn-primary'
+    prevBtn.className = 'btn btn-secondary';
     prevBtn.textContent = 'Previous';
     prevBtn.disabled = currentPage === 1;
     prevBtn.addEventListener('click', () => {
@@ -122,9 +118,7 @@ function renderPaginationControls() {
     });
     paginationDiv.appendChild(prevBtn);
 
-    // Page number buttons
-    // We'll limit the number of buttons shown for usability if there are many pages
-    const maxPageButtons = 7; // max number of page buttons to show at once
+    const maxPageButtons = 7;
     let startPage = Math.max(1, currentPage - Math.floor(maxPageButtons / 2));
     let endPage = startPage + maxPageButtons - 1;
     if (endPage > totalPages) {
@@ -132,7 +126,6 @@ function renderPaginationControls() {
         startPage = Math.max(1, endPage - maxPageButtons + 1);
     }
 
-    // If startPage > 1, add "1" and "..." before the range
     if (startPage > 1) {
         paginationDiv.appendChild(createPageButton(1));
         if (startPage > 2) {
@@ -149,7 +142,6 @@ function renderPaginationControls() {
         paginationDiv.appendChild(btn);
     }
 
-    // If endPage < totalPages, add "..." and last page button
     if (endPage < totalPages) {
         if (endPage < totalPages - 1) {
             const dots = document.createElement('span');
@@ -160,9 +152,8 @@ function renderPaginationControls() {
         paginationDiv.appendChild(createPageButton(totalPages));
     }
 
-    // Next button
     const nextBtn = document.createElement('button');
-    nextBtn.className = 'btn btn-secondary'; // changed from 'btn-primary'
+    nextBtn.className = 'btn btn-secondary'; 
     nextBtn.textContent = 'Next';
     nextBtn.disabled = currentPage === totalPages;
     nextBtn.addEventListener('click', () => {
@@ -175,13 +166,12 @@ function renderPaginationControls() {
     });
     paginationDiv.appendChild(nextBtn);
 
-    // Append pagination controls after gallery
     galleryGrid.parentNode.appendChild(paginationDiv);
 }
 
 function createPageButton(pageNumber) {
     const btn = document.createElement('button');
-    btn.className = 'btn btn-outline-secondary'; // gray color
+    btn.className = 'btn btn-outline-secondary';
     btn.textContent = pageNumber;
     btn.addEventListener('click', () => {
         if (pageNumber !== currentPage) {
@@ -194,8 +184,6 @@ function createPageButton(pageNumber) {
     return btn;
 }
 
-
-// Filter change listener
 tagFilter.addEventListener('change', applyFilterAndRender);
 
 document.addEventListener('DOMContentLoaded', loadGalleryImagesOnly);
