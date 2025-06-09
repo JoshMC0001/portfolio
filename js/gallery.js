@@ -13,7 +13,6 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-
 let galleryImages = [];
 const IMAGES_PER_PAGE = 24;
 let currentPage = 1;
@@ -79,7 +78,39 @@ function renderImageGrid() {
             imageModal.show();
         });
 
+        const likeBtn = document.createElement('button');
+        likeBtn.className = 'btn text-danger p-0 mt-1';
+        likeBtn.style.fontSize = '1.25rem';
+
+        const isLiked = localStorage.getItem(`liked-${img.id}`) === 'true';
+        const likeIcon = document.createElement('i');
+        likeIcon.className = isLiked ? 'bi bi-heart-fill' : 'bi bi-heart';
+
+        const likeCount = document.createElement('span');
+        likeCount.className = 'ms-1';
+        likeCount.textContent = img.likes || 0;
+
+        likeBtn.appendChild(likeIcon);
+        likeBtn.appendChild(likeCount);
+
+        likeBtn.addEventListener('click', async (e) => {
+            e.stopPropagation();
+            const liked = localStorage.getItem(`liked-${img.id}`) === 'true';
+            const newLikeCount = liked ? (img.likes || 0) - 1 : (img.likes || 0) + 1;
+
+            // Update in Firestore
+            await db.collection('gallery').doc(img.id).update({ likes: newLikeCount });
+
+            // Update locally
+            img.likes = newLikeCount;
+            localStorage.setItem(`liked-${img.id}`, !liked);
+            likeIcon.className = !liked ? 'bi bi-heart-fill' : 'bi bi-heart';
+            likeCount.textContent = newLikeCount;
+            likeCount.style.textDecoration = 'none';
+        });
+
         container.appendChild(imgEl);
+        container.appendChild(likeBtn);
         col.appendChild(container);
         galleryGrid.appendChild(col);
     });
@@ -87,10 +118,8 @@ function renderImageGrid() {
     renderPaginationControls();
 }
 
-
-
 tagFilter.addEventListener('change', applyFilterAndRender);
-loadGalleryImagesOnly();
+document.addEventListener('DOMContentLoaded', loadGalleryImagesOnly);
 
 function renderPaginationControls() {
     let oldControls = document.getElementById('paginationControls');
@@ -183,23 +212,3 @@ function createPageButton(pageNumber) {
     });
     return btn;
 }
-
-tagFilter.addEventListener('change', applyFilterAndRender);
-
-document.addEventListener('DOMContentLoaded', loadGalleryImagesOnly);
-
-let path = window.location.pathname;
-if (path === "/gallery" || path === "/gallery.html") path = "gallery";
-const page = path.replace(/\//g, "_");
-
-const pageRef = db.collection("pageViews").doc(page);
-
-pageRef.get().then((doc) => {
-    if (doc.exists) {
-        pageRef.update({ count: firebase.firestore.FieldValue.increment(1) });
-    } else {
-        pageRef.set({ count: 1 });
-    }
-}).catch((error) => {
-    console.error("Error updating view count:", error);
-});

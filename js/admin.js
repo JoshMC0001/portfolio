@@ -296,6 +296,28 @@ document.addEventListener('DOMContentLoaded', () => {
     updateGalleryImageCount();
 });
 
+function updateGalleryLikesCount() {
+  const totalLikesEl = document.getElementById('totalLikes');
+  db.collection("gallery").get().then(snapshot => {
+    let totalLikes = 0;
+    snapshot.forEach(doc => {
+      const data = doc.data();
+      // Make sure 'likes' field exists and is a number
+      if (data.likes && typeof data.likes === 'number') {
+        totalLikes += data.likes;
+      }
+    });
+    totalLikesEl.textContent = totalLikes;
+  }).catch(error => {
+    console.error("Failed to count total likes:", error);
+    totalLikesEl.textContent = "Error";
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  updateGalleryLikesCount();
+});
+
 
 const galleryRow = document.getElementById('galleryRow');
 
