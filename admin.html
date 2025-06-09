@@ -55,7 +55,10 @@
       <button id="logoutBtn" class="btn btn-outline-light">Logout</button>
     </div>
   </nav>
-
+  <button id="goTopBtn" class="btn btn-secondary rounded-circle shadow"
+    style="position: fixed; bottom: 30px; right: 30px; display: none; z-index: 1000; width: 60px; height: 60px; font-size: 24px;">
+    <i class="bi bi-caret-up-fill"></i>
+  </button>
   <div class="tab-content" id="pills-tabContent">
     <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab"
       tabindex="0">
@@ -196,6 +199,20 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script>
+    const goTopBtn = document.getElementById('goTopBtn');
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        goTopBtn.style.display = 'block';
+      } else {
+        goTopBtn.style.display = 'none';
+      }
+    });
+    goTopBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  </script>
 
   <script src="js/admin.js"></script>
   <script src="js/admin/gallery.js"></script>
