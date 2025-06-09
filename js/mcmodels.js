@@ -51,6 +51,7 @@ const page = path.replace(/\//g, "_");
 
 const pageRef = db.collection("pageViews").doc(page);
 
+// Increment view count atomically or create doc if not exist
 pageRef.get().then((doc) => {
   if (doc.exists) {
     pageRef.update({ count: firebase.firestore.FieldValue.increment(1) });
