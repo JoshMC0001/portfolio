@@ -1,1 +1,10 @@
-const _0x531c25=_0x4f72;function _0x4f72(_0x2cebb4,_0x180446){const _0x57ba60=_0x57ba();return _0x4f72=function(_0x4f7249,_0x1f9ec4){_0x4f7249=_0x4f7249-0xe4;let _0x2ad15e=_0x57ba60[_0x4f7249];return _0x2ad15e;},_0x4f72(_0x2cebb4,_0x180446);}(function(_0x1c94b2,_0xaf2209){const _0x3fb53a=_0x4f72,_0x4eb178=_0x1c94b2();while(!![]){try{const _0x3a6bfb=-parseInt(_0x3fb53a(0xeb))/0x1+-parseInt(_0x3fb53a(0xec))/0x2*(-parseInt(_0x3fb53a(0xf3))/0x3)+parseInt(_0x3fb53a(0xf2))/0x4*(-parseInt(_0x3fb53a(0xe5))/0x5)+parseInt(_0x3fb53a(0xe8))/0x6*(-parseInt(_0x3fb53a(0xe7))/0x7)+-parseInt(_0x3fb53a(0xe6))/0x8*(-parseInt(_0x3fb53a(0xe4))/0x9)+parseInt(_0x3fb53a(0xef))/0xa*(-parseInt(_0x3fb53a(0xea))/0xb)+parseInt(_0x3fb53a(0xe9))/0xc;if(_0x3a6bfb===_0xaf2209)break;else _0x4eb178['push'](_0x4eb178['shift']());}catch(_0xb1f89f){_0x4eb178['push'](_0x4eb178['shift']());}}}(_0x57ba,0xa43fc));function _0x57ba(){const _0x5e3a83=['132iYlqeV','573188FVpRBo','1543156BGvfgH','127710028877','portfolio-5ed3f.appspot.com','1057360dPPGTU','portfolio-5ed3f.firebaseapp.com','AIzaSyDCz7E4DSG9nanQ_fmM9fF8te6TXBpXUA0','791288znujuM','3jYWbom','6939RVctbx','10amKxIP','4904PPNLsS','6488314uupTSO','6wQghoF','31117548HUsqsP'];_0x57ba=function(){return _0x5e3a83;};return _0x57ba();}const firebaseConfig={'apiKey':_0x531c25(0xf1),'authDomain':_0x531c25(0xf0),'projectId':'portfolio-5ed3f','storageBucket':_0x531c25(0xee),'messagingSenderId':_0x531c25(0xed),'appId':'1:127710028877:web:bde5c98f7283ee5dbc2804','measurementId':'G-RBDZRPQ2H9'};
+// ✅ Replace these with your actual Firebase config values
+const firebaseConfig = {
+    apiKey: "AIzaSyDCz7E4DSG9nanQ_fmM9fF8te6TXBpXUA0",
+    authDomain: "portfolio-5ed3f.firebaseapp.com",
+    projectId: "portfolio-5ed3f",
+    storageBucket: "portfolio-5ed3f.appspot.com",
+    messagingSenderId: "127710028877",
+    appId: "1:127710028877:web:bde5c98f7283ee5dbc2804",
+    measurementId: "G-RBDZRPQ2H9"
+};
