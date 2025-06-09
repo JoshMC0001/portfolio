@@ -102,11 +102,16 @@ function renderImageGrid() {
                 return;
             }
 
-            const newLikeCount = (img.likes || 0) + 1;
+            let newLikeCount;
+            if (liked) {
+                newLikeCount = Math.max((img.likes || 1) - 1, 0);
+            } else {
+                newLikeCount = (img.likes || 0) + 1;
+            }
+
             likeIcon.className = 'bi bi-heart-fill';
             likeCount.textContent = newLikeCount;
             likeCount.style.textDecoration = 'none';
-            likeBtn.disabled = true;
             likeBtn.style.cursor = 'default';
 
             try {
