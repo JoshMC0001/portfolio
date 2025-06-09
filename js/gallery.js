@@ -89,24 +89,53 @@ function renderImageGrid() {
         const likeCount = document.createElement('span');
         likeCount.className = 'ms-1';
         likeCount.textContent = img.likes || 0;
+        likeCount.style.textDecoration = 'none';
 
         likeBtn.appendChild(likeIcon);
         likeBtn.appendChild(likeCount);
 
+        // Disable like button if already liked
+        if (isLiked) {
+            likeBtn.disabled = true;
+            likeBtn.style.cursor = 'default';
+        }
+
         likeBtn.addEventListener('click', async (e) => {
             e.stopPropagation();
+
             const liked = localStorage.getItem(`liked-${img.id}`) === 'true';
-            const newLikeCount = liked ? (img.likes || 0) - 1 : (img.likes || 0) + 1;
+            if (liked) {
+                // Already liked, do nothing
+                return;
+            }
 
-            // Update in Firestore
-            await db.collection('gallery').doc(img.id).update({ likes: newLikeCount });
-
-            // Update locally
-            img.likes = newLikeCount;
-            localStorage.setItem(`liked-${img.id}`, !liked);
-            likeIcon.className = !liked ? 'bi bi-heart-fill' : 'bi bi-heart';
+            // Optimistically update UI
+            const newLikeCount = (img.likes || 0) + 1;
+            likeIcon.className = 'bi bi-heart-fill';
             likeCount.textContent = newLikeCount;
             likeCount.style.textDecoration = 'none';
+            likeBtn.disabled = true;
+            likeBtn.style.cursor = 'default';
+
+            try {
+                // Update Firestore likes count
+                await db.collection('gallery').doc(img.id).update({
+                    likes: newLikeCount
+                });
+
+                // Update local data and localStorage
+                img.likes = newLikeCount;
+                localStorage.setItem(`liked-${img.id}`, 'true');
+
+            } catch (error) {
+                console.error('Failed to update likes:', error);
+
+                // Revert UI changes on failure
+                likeIcon.className = 'bi bi-heart';
+                likeCount.textContent = img.likes || 0;
+                likeBtn.disabled = false;
+                likeBtn.style.cursor = 'pointer';
+            }
         });
 
         container.appendChild(imgEl);
@@ -117,6 +146,7 @@ function renderImageGrid() {
 
     renderPaginationControls();
 }
+
 
 tagFilter.addEventListener('change', applyFilterAndRender);
 document.addEventListener('DOMContentLoaded', loadGalleryImagesOnly);
