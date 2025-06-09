@@ -101,14 +101,11 @@ function renderImageGrid() {
             let newLikeCount;
 
             if (liked) {
-                // User wants to dislike (remove like)
                 newLikeCount = Math.max((img.likes || 1) - 1, 0);
             } else {
-                // User wants to like
                 newLikeCount = (img.likes || 0) + 1;
             }
 
-            // Optimistically update UI
             likeIcon.className = liked ? 'bi bi-heart' : 'bi bi-heart-fill';
             likeCount.textContent = newLikeCount;
             likeBtn.style.cursor = 'pointer';
@@ -118,7 +115,6 @@ function renderImageGrid() {
                     likes: newLikeCount
                 });
 
-                // Update local data
                 img.likes = newLikeCount;
 
                 if (liked) {
@@ -128,7 +124,6 @@ function renderImageGrid() {
                 }
             } catch (error) {
                 console.error('Failed to update likes:', error);
-                // Revert UI on failure
                 likeIcon.className = liked ? 'bi bi-heart-fill' : 'bi bi-heart';
                 likeCount.textContent = img.likes || 0;
             }
