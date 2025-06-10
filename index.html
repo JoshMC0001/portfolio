@@ -4,22 +4,13 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>JoshMC - Home</title>
+    <title>JoshMC</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" />
     <link rel="stylesheet" href="style/style.css" />
     <link rel="shortcut icon" href="img/profile.png" type="image/x-icon" />
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 
-    <meta property="og:title" content="JoshMC Portfolio" />
-    <meta property="og:image" content="https://realjoshmc.netlify.app/img/thumbnail.png" />
-    <meta property="og:description" content="My collection of 3D model creations.">
-    <meta property="og:url" content="https://realjoshmc.netlify.app/" />
-    <meta property="og:type" content="website" />
-
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="JoshMC Portfolio" />
-    <meta name="twitter:description" content="My collection of 3D model creations." />
-    <meta name="twitter:image" content="https://realjoshmc.netlify.app/img/thumbnail.png" /> 
 </head>
 
 <body>
@@ -31,6 +22,12 @@
                     <h1>Loading custom Minecraft models…<br>Please wait while the world generates!</h1><br><br>
                     <h4>View my MCModels Products</h4>
                     <a href="mcmodels.html" class="btn bg-secondary mt-3" style="color: white;">MCModels</a>
+                </div>
+            </section>
+            <section class="models other-section py-5" style="background-color: rgb(75, 75, 75);">
+                <div class="container">
+                    <h1 class="mb-3" style="color: white;">Models</h1>
+                    <div id="sketchfabContainer"></div>
                 </div>
             </section>
             <section class="mcmodels other-section py-5">
@@ -103,6 +100,7 @@
     </script>
 
     <script src="js/home.js"></script>
+    <script type="module" src="js/loadmodel.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 

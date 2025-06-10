@@ -27,6 +27,14 @@ body {
     font-size: 20px;
 }
 
+.like-btn {
+  text-decoration: none !important;
+}
+
+.like-btn .like-count {
+  text-decoration: none !important;
+}
+
 .landing-screen {
     min-height: 350px;
     background-image: url('../img/header.png');
@@ -71,6 +79,10 @@ body {
         padding-left: 6rem;
         padding-right: 6rem;
     }
+
+    iframe {
+        height: 750px;
+    }
 }
 
 /** Mobile */
@@ -85,5 +97,9 @@ body {
         background-repeat: repeat-x;
         background-size: cover;
         background-position: center;
+    }
+
+    iframe {
+        height: 350px;
     }
 }
