@@ -274,7 +274,7 @@ document.addEventListener('DOMContentLoaded', () => {
         logoutBtn.addEventListener('click', () => {
             firebase.auth().signOut()
                 .then(() => {
-                    window.location.href = 'login.html'; 
+                    window.location.href = 'login.html';
                 })
                 .catch((error) => {
                     console.error('Logout error:', error);
@@ -366,7 +366,7 @@ function fetchLatestMCModel() {
             if (!snapshot.empty) {
                 const doc = snapshot.docs[0].data();
                 latestCardTitle.textContent = doc.title || 'No title';
-                latestCardImage.src = doc.image || 'img/default.jpg'; 
+                latestCardImage.src = doc.image || 'img/default.jpg';
                 latestCardLink.href = doc.link || '#';
             }
         })
@@ -388,4 +388,25 @@ db.collection('siteSettings').doc('commissions').get().then(doc => {
 commissionToggle.addEventListener('change', () => {
     const isOpen = commissionToggle.checked;
     db.collection('siteSettings').doc('commissions').set({ open: isOpen });
+});
+
+function updateGalleryLikesCount() {
+    const totalLikesEl = document.getElementById('totalLikes');
+    db.collection("gallery").get().then(snapshot => {
+        let totalLikes = 0;
+        snapshot.forEach(doc => {
+            const data = doc.data();
+            if (data.likes && typeof data.likes === 'number') {
+                totalLikes += data.likes;
+            }
+        });
+        totalLikesEl.textContent = totalLikes;
+    }).catch(error => {
+        console.error("Failed to count total likes:", error);
+        totalLikesEl.textContent = "Error";
+    });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    updateGalleryLikesCount();
 });
