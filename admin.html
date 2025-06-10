@@ -62,7 +62,6 @@
       <button class="btn btn-outline-light">Logout</button>
     </div>
   </nav>
-
   <div class="tab-content" id="pills-tabContent">
     <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab"
       tabindex="0">
@@ -82,7 +81,6 @@
       </div>
       <div class="container py-3">
         <div class="row justify-content-between">
-          <!-- Left: Counters -->
           <div class="col-md-4">
             <div class="card text-bg-primary mb-4 custom-margin">
               <div class="card-body">
@@ -200,7 +198,6 @@
         </div>
       </section>
     </div>
-    <!-- Sketchfab Models Tab -->
     <div class="tab-pane fade" id="pills-model" role="tabpanel" aria-labelledby="pills-model-tab" tabindex="0">
       <section class="models py-2">
         <div class="container-fluid">
@@ -254,7 +251,7 @@
   <script src="js/admin.js"></script>
   <script src="js/admin/sketchfab.js"></script>
   <script>
-    const pageNames = ['home', 'gallery', 'about', 'contact']; // Add all your tracked pages here
+    const pageNames = ['home', 'gallery', 'about', 'contact'];
     const promises = pageNames.map(name => db.collection("pageViews").doc(name).get());
 
     Promise.all(promises).then((docs) => {

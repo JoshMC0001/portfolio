@@ -18,7 +18,6 @@ body {
 .divider-gray {
     border: none;
     border-top: 2px solid #505050;
-    /* orange */
     opacity: 0.75;
 }
 

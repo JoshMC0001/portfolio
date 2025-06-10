@@ -267,6 +267,23 @@ function logout() {
     });
 }
 
+document.addEventListener('DOMContentLoaded', () => {
+    const logoutBtn = document.getElementById('logoutBtn');
+
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', () => {
+            firebase.auth().signOut()
+                .then(() => {
+                    window.location.href = 'login.html'; 
+                })
+                .catch((error) => {
+                    console.error('Logout error:', error);
+                    alert('Logout failed. Please try again.');
+                });
+        });
+    }
+});
+
 function fetchCardCountFromFirestore() {
     db.collection("mcmodels_cards").get()
         .then((querySnapshot) => {
@@ -294,28 +311,6 @@ function updateGalleryImageCount() {
 
 document.addEventListener('DOMContentLoaded', () => {
     updateGalleryImageCount();
-});
-
-function updateGalleryLikesCount() {
-  const totalLikesEl = document.getElementById('totalLikes');
-  db.collection("gallery").get().then(snapshot => {
-    let totalLikes = 0;
-    snapshot.forEach(doc => {
-      const data = doc.data();
-      // Make sure 'likes' field exists and is a number
-      if (data.likes && typeof data.likes === 'number') {
-        totalLikes += data.likes;
-      }
-    });
-    totalLikesEl.textContent = totalLikes;
-  }).catch(error => {
-    console.error("Failed to count total likes:", error);
-    totalLikesEl.textContent = "Error";
-  });
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  updateGalleryLikesCount();
 });
 
 
@@ -371,7 +366,7 @@ function fetchLatestMCModel() {
             if (!snapshot.empty) {
                 const doc = snapshot.docs[0].data();
                 latestCardTitle.textContent = doc.title || 'No title';
-                latestCardImage.src = doc.image || 'img/default.jpg';
+                latestCardImage.src = doc.image || 'img/default.jpg'; 
                 latestCardLink.href = doc.link || '#';
             }
         })
@@ -379,7 +374,6 @@ function fetchLatestMCModel() {
             console.error("Error fetching latest product:", error);
         });
 }
-
 
 fetchLatestMCModel();
 
@@ -394,58 +388,4 @@ db.collection('siteSettings').doc('commissions').get().then(doc => {
 commissionToggle.addEventListener('change', () => {
     const isOpen = commissionToggle.checked;
     db.collection('siteSettings').doc('commissions').set({ open: isOpen });
-});
-
-
-document.addEventListener('DOMContentLoaded', () => {
-    const logoutBtn = document.getElementById('logoutBtn');
-
-    if (logoutBtn) {
-        logoutBtn.addEventListener('click', () => {
-            firebase.auth().signOut()
-                .then(() => {
-                    window.location.href = 'login.html';
-                })
-                .catch((error) => {
-                    console.error('Logout error:', error);
-                    alert('Logout failed. Please try again.');
-                });
-        });
-    }
-});
-
-const pageNames = ['home', 'mcmodels', 'gallery'];
-const promises = pageNames.map(name => db.collection("pageViews").doc(name).get());
-
-Promise.all(promises).then((docs) => {
-    const labels = [];
-    const counts = [];
-
-    docs.forEach((doc, i) => {
-        labels.push(pageNames[i]);
-        counts.push(doc.exists ? doc.data().count : 0);
-    });
-
-    const ctx = document.getElementById('visitsChart').getContext('2d');
-    new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: labels,
-            datasets: [{
-                label: 'Page Views',
-                data: counts,
-                backgroundColor: 'rgba(54, 162, 235, 0.6)',
-                borderColor: 'rgba(54, 162, 235, 1)',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
 });

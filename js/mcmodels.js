@@ -64,7 +64,6 @@ async function incrementPageView() {
   }
 }
 
-// Run both on page load
 window.addEventListener('DOMContentLoaded', () => {
   loadPublicCards();
   incrementPageView();
