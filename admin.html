@@ -33,16 +33,12 @@
   <nav class="navbar navbar-dark bg-dark navbar-expand-lg">
     <div class="container-fluid">
       <span class="navbar-brand mb-0 h1">Admin Panel</span>
-
-      <!-- Mobile toggle -->
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNavbar"
         aria-controls="adminNavbar" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-
-      <!-- Tabs menu -->
-      <div class="collapse navbar-collapse" id="adminNavbar">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0 nav nav-pills" id="pills-tab" role="tablist">
+      <div class="collapse navbar-collapse justify-content-center" id="adminNavbar">
+        <ul class="navbar-nav mb-2 mb-lg-0 nav nav-pills d-flex justify-content-center" id="pills-tab" role="tablist">
           <li class="nav-item" role="presentation">
             <button class="nav-link me-2 active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home"
               type="button" role="tab" aria-controls="pills-home" aria-selected="true">
@@ -67,13 +63,15 @@
               3D Models
             </button>
           </li>
+          <li class="nav-item d-lg-none mt-2 text-center">
+            <button class="btn btn-outline-light w-100" type="button">Logout</button>
+          </li>
         </ul>
       </div>
-
-      <!-- Always visible logout -->
-      <button class="btn btn-outline-light ms-2" type="button">Logout</button>
+      <button class="btn btn-outline-light d-none d-lg-block" type="button">Logout</button>
     </div>
   </nav>
+
 
   <div class="tab-content" id="pills-tabContent">
     <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab"
