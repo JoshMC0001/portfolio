@@ -36,12 +36,11 @@ body {
 }
 
 .landing-screen {
-    min-height: 350px;
+    min-height: 400px;
     background-image: url('../img/header.png');
     background-repeat: repeat-x;
     background-size: auto;
     background-position: center;
-    margin-top: 80px;
 }
 
 .mcmodels a {
@@ -66,9 +65,14 @@ body {
     padding-right: 2rem;
 }
 
-.w-70 {
-    width: 70%;
-    margin: 0 auto;
+
+nav.mobile,
+nav.pc {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1030; /* Bootstrap navbar z-index */
 }
 
 /** PC */
@@ -91,7 +95,7 @@ body {
     }
 
     .w-70 {
-        width: 90%;
+        width: 85%;
         margin: 0 auto;
     }
 }
@@ -108,10 +112,14 @@ body {
         background-repeat: repeat-x;
         background-size: cover;
         background-position: center;
-        margin-top: 65px;
     }
 
     iframe {
         height: 350px;
+    }
+
+    .w-70 {
+        width: 100%;
+        margin: 0 auto;
     }
 }
