@@ -18,6 +18,7 @@ body {
 .divider-gray {
     border: none;
     border-top: 2px solid #505050;
+    /* orange */
     opacity: 0.75;
 }
 
@@ -27,11 +28,11 @@ body {
 }
 
 .like-btn {
-  text-decoration: none !important;
+    text-decoration: none !important;
 }
 
 .like-btn .like-count {
-  text-decoration: none !important;
+    text-decoration: none !important;
 }
 
 .landing-screen {
@@ -40,6 +41,7 @@ body {
     background-repeat: repeat-x;
     background-size: auto;
     background-position: center;
+    margin-top: 80px;
 }
 
 .mcmodels a {
@@ -64,6 +66,11 @@ body {
     padding-right: 2rem;
 }
 
+.w-70 {
+    width: 70%;
+    margin: 0 auto;
+}
+
 /** PC */
 @media (min-width: 768px) {
     .mobile {
@@ -82,6 +89,11 @@ body {
     iframe {
         height: 750px;
     }
+
+    .w-70 {
+        width: 90%;
+        margin: 0 auto;
+    }
 }
 
 /** Mobile */
@@ -96,6 +108,7 @@ body {
         background-repeat: repeat-x;
         background-size: cover;
         background-position: center;
+        margin-top: 65px;
     }
 
     iframe {
