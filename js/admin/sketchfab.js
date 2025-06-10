@@ -37,7 +37,7 @@ async function renderModels() {
         const index = doc.id;
 
         const col = document.createElement("div");
-        col.className = "col-12 mb-4";
+        col.className = "row-cols-lg-5";
         col.dataset.id = index;
 
         col.innerHTML = `
