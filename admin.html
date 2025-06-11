@@ -11,6 +11,9 @@
   <link rel="stylesheet" href="adminGallery.css">
   <link rel="shortcut icon" href="img/profile.png" type="image/x-icon" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+
   <style>
     .nav-pills .nav-link {
       background-color: transparent;
@@ -164,9 +167,9 @@
             <div class="col-12 col-md-8">
               <hr class="d-md-none" />
               <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 g-2 g-md-4" id="cardsRow">
+              </div>
             </div>
           </div>
-        </div>
       </section>
     </div>
     <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab" tabindex="0">
@@ -264,7 +267,7 @@
   <script src="js/admin.js"></script>
   <script src="js/admin/sketchfab.js"></script>
   <script>
-    const pageNames = ['home', 'gallery', 'about', 'contact'];
+    const pageNames = ['home', 'mcmodels', 'gallery'];
     const promises = pageNames.map(name => db.collection("pageViews").doc(name).get());
 
     Promise.all(promises).then((docs) => {
@@ -276,6 +279,8 @@
         counts.push(doc.exists ? doc.data().count : 0);
       });
 
+      Chart.register(ChartDataLabels); // Register plugin
+
       const ctx = document.getElementById('visitsChart').getContext('2d');
       new Chart(ctx, {
         type: 'bar',
@@ -284,19 +289,39 @@
           datasets: [{
             label: 'Page Views',
             data: counts,
-            backgroundColor: 'rgba(54, 162, 235, 0.6)',
-            borderColor: 'rgba(54, 162, 235, 1)',
+            backgroundColor: labels.map(label => {
+              if (label === 'mcmodels') return 'rgba(255, 99, 132, 0.6)';
+              if (label === 'gallery') return 'rgba(255, 206, 86, 0.6)';
+              return 'rgba(54, 162, 235, 0.6)';
+            }),
+            borderColor: labels.map(label => {
+              if (label === 'mcmodels') return 'rgba(255, 99, 132, 1)';
+              if (label === 'gallery') return 'rgba(255, 206, 86, 1)';
+              return 'rgba(54, 162, 235, 1)';
+            }),
             borderWidth: 1
           }]
         },
         options: {
           responsive: true,
+          plugins: {
+            datalabels: {
+              anchor: 'end',
+              align: 'top',
+              color: '#fff',
+              font: {
+                weight: 'bold'
+              },
+              formatter: Math.round
+            }
+          },
           scales: {
             y: {
               beginAtZero: true
             }
           }
-        }
+        },
+        plugins: [ChartDataLabels]
       });
     });
   </script>

@@ -19,8 +19,8 @@ async function loadPublicCards() {
         const snapshot = await db.collection('mcmodels_cards').orderBy('order', 'asc').get();
         const allCards = snapshot.docs.map(doc => doc.data());
 
-        const isMobile = window.innerWidth < 992;
-        const maxCards = isMobile ? 4 : 10;
+        const isMobile = window.innerWidth < 767;
+        const maxCards = isMobile ? 4 : 6;
         const visibleCards = allCards.slice(0, maxCards);
 
         container.innerHTML = '';
@@ -28,11 +28,11 @@ async function loadPublicCards() {
         visibleCards.forEach(card => {
             container.insertAdjacentHTML('beforeend', `
                 <div class="col">
-                    <div class="card h-100 d-flex flex-column">
+                    <div class="card h-100 d-flex flex-column bg-black">
                         <a href="${card.link || '#'}" target="_blank">
                             <img src="${card.image}" class="card-img-top" alt="${card.title}">
-                            <div class="card-body">
-                                <h5 class="card-title">${card.title}</h5>
+                            <div class="card-body p-0 pt-3">
+                                <h5 class="card-title text-white text-start fs-5">${card.title}</h5>
                             </div>
                         </a>
                     </div>

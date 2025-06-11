@@ -67,34 +67,29 @@ async function loadSketchfabModel() {
     mainContainer.appendChild(firstModel);
 
     const thumbBar = document.createElement("div");
-    thumbBar.className = "d-flex overflow-auto mt-3 pb-2";
-    thumbBar.style.gap = "10px";
+    thumbBar.className = "d-flex overflow-auto mt-2 py-2 px-2";
     thumbBar.style.scrollSnapType = "x mandatory";
 
     models.forEach((model, index) => {
       const thumb = document.createElement("img");
       thumb.src = model.thumbnail;
       thumb.alt = model.title || `Model ${index + 1}`;
-      thumb.className = "img-thumbnail";
-      thumb.style.width = "200px";
+      thumb.className = "custom-thumbnail thumbBar";
       thumb.style.flex = "0 0 auto";
       thumb.style.cursor = "pointer";
       thumb.style.scrollSnapAlign = "start";
-      thumb.style.border = index === 0 ? "3px solid #00bfff" : "1px solid #ccc";
-
+      if (index === 0) thumb.classList.add("active-thumbnail");
       thumb.addEventListener("click", () => {
         mainContainer.innerHTML = "";
         mainContainer.appendChild(createIframe(model.link));
 
-        document.querySelectorAll(".img-thumbnail").forEach(img => {
-          img.style.border = "1px solid #ccc";
+        document.querySelectorAll(".custom-thumbnail").forEach(img => {
+          img.classList.remove("active-thumbnail");
         });
-        thumb.style.border = "3px solid #00bfff";
+        thumb.classList.add("active-thumbnail");
       });
-
       thumbBar.appendChild(thumb);
     });
-
     mainContainer.parentElement.appendChild(thumbBar);
   }
 }

@@ -8,18 +8,20 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" />
     <link rel="stylesheet" href="style/style.css" />
+    <link rel="stylesheet" href="style/gallery.css" />
+    <link rel="stylesheet" href="style/nav.css">
     <link rel="shortcut icon" href="img/profile.png" type="image/x-icon" />
 </head>
 
-<body style="padding-top: 100px;">
+<body class="bg-black">
     <div class="d-flex flex-column min-vh-100">
         <div id="navbarContainer"></div>
-        <main class="flex-fill">
+        <main class="flex-fill text-white">
             <div class="container-fluid my-4 custom-padding">
                 <h1 class="mb-4 text-center">Gallery</h1>
                 <div class="mb-4">
                     <label for="tagFilter" class="form-label">Filter by Tag:</label>
-                    <select id="tagFilter" class="form-select w-auto">
+                    <select id="tagFilter" class="form-select w-auto bg-dark text-white">
                         <option value="">-- Show All --</option>
                         <option value="3d-models">3D Models</option>
                         <option value="minecraft">Minecraft</option>
@@ -41,30 +43,21 @@
                         <img id="modalImage" src="" alt="" class="img-fluid" />
                     </div>
                     <div class="modal-footer justify-content-center">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
         </div>
-        <footer class="bg-dark text-white py-4 mt-2">
+        <footer class="bg-black text-white py-4 mt-2">
             <div class="container">
-                <div class="row gy-3 justify-content-center">
-                    <div class="col-md-4">
-                        <h5>Quick Links</h5>
-                        <ul class="list-unstyled">
-                            <li><a href="index.html" class="text-white text-decoration-none">Home</a></li>
-                            <li><a href="mcmodels.html" class="text-white text-decoration-none">MCModels</a></li>
-                            <li><a href="gallery.html" class="text-white text-decoration-none">Gallery</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-md-4">
-                        <h5>Social Media</h5>
-                        <ul class="list-unstyled">
-                            <li><a href="https://x.com/RealJoshMC" class="text-white text-decoration-none"><i
-                                        class="bi bi-twitter-x me-2"></i>@RealJoshMC</a></li>
-                            <li><span class="text-white text-decoration-none"><i
-                                        class="bi bi-discord me-2"></i>joshmc0001</span></li>
-                        </ul>
+                <div class="row justify-content-center">
+                    <div class="col-md-8 text-center">
+                        <a href="https://x.com/RealJoshMC" class="text-white fs-6 me-4" style="text-decoration: none;">
+                            <i class="bi bi-twitter-x me-2"></i>@RealJoshMC
+                        </a>
+                        <a href="#" class="text-white fs-6" style="text-decoration: none;">
+                            <i class="bi bi-discord me-2"></i>joshmc0001
+                        </a>
                     </div>
                 </div>
                 <hr class="border-light mt-4">
@@ -98,7 +91,30 @@
             .then(res => res.text())
             .then(data => {
                 document.getElementById('navbarContainer').innerHTML = data;
+
                 updateCommissionStatus();
+
+                const goTopBtn = document.getElementById('goTopBtn');
+
+                window.addEventListener('scroll', () => {
+                    if (window.scrollY > 300) {
+                        goTopBtn.style.display = 'block';
+                    } else {
+                        goTopBtn.style.display = 'none';
+                    }
+                });
+
+                goTopBtn.addEventListener('click', () => {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+
+                // ✅ Highlight active nav link
+                const currentPage = location.pathname.split("/").pop();
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    if (link.getAttribute('href') === currentPage) {
+                        link.classList.add('active');
+                    }
+                });
             });
     </script>
     <script src="js/gallery.js"></script>

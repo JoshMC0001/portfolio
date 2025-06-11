@@ -67,7 +67,7 @@ function renderImageGrid() {
         const imgEl = document.createElement('img');
         imgEl.src = img.imageUrl;
         imgEl.alt = img.title;
-        imgEl.className = 'img-fluid rounded shadow-sm';
+        imgEl.className = 'img-fluid rounded shadow-sm hover-zoom';
         imgEl.style.cursor = 'pointer';
 
         imgEl.addEventListener('click', () => {
@@ -156,8 +156,9 @@ function renderPaginationControls() {
     paginationDiv.className = 'd-flex justify-content-center align-items-center gap-2 flex-wrap mt-3';
 
     const prevBtn = document.createElement('button');
-    prevBtn.className = 'btn btn-secondary';
+    prevBtn.className = 'btn bg-dark text-white';
     prevBtn.textContent = 'Previous';
+    prevBtn.style.border = "none";
     prevBtn.disabled = currentPage === 1;
     prevBtn.addEventListener('click', () => {
         if (currentPage > 1) {
@@ -204,8 +205,9 @@ function renderPaginationControls() {
     }
 
     const nextBtn = document.createElement('button');
-    nextBtn.className = 'btn btn-secondary';
+    nextBtn.className = 'btn bg-dark text-white';
     nextBtn.textContent = 'Next';
+    nextBtn.style.border = "none";
     nextBtn.disabled = currentPage === totalPages;
     nextBtn.addEventListener('click', () => {
         if (currentPage < totalPages) {
@@ -222,8 +224,9 @@ function renderPaginationControls() {
 
 function createPageButton(pageNumber) {
     const btn = document.createElement('button');
-    btn.className = 'btn btn-outline-secondary';
+    btn.className = 'btn btn-dark text-white';
     btn.textContent = pageNumber;
+    btn.style.border = "none";
     btn.addEventListener('click', () => {
         if (pageNumber !== currentPage) {
             currentPage = pageNumber;
@@ -234,3 +237,29 @@ function createPageButton(pageNumber) {
     });
     return btn;
 }
+
+async function incrementPageView() {
+    let path = window.location.pathname;
+    if (path === "/gallery" || path === "/gallery.html") path = "gallery";
+    const page = path.replace(/\//g, "_");
+
+    const pageRef = db.collection("pageViews").doc(page);
+
+    try {
+        const doc = await pageRef.get();
+        if (doc.exists) {
+            await pageRef.update({ count: firebase.firestore.FieldValue.increment(1) });
+            console.log(`Incremented view count for page: ${page}`);
+        } else {
+            await pageRef.set({ count: 1 });
+            console.log(`Created view count doc and set to 1 for page: ${page}`);
+        }
+    } catch (error) {
+        console.error("Error updating view count:", error);
+    }
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+    loadPublicCards();
+    incrementPageView();
+});

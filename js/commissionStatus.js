@@ -17,7 +17,7 @@ function updateCommissionStatus() {
             if (el) {
                 el.textContent = statusText;
                 el.className = ''; // Clear existing classes
-                el.classList.add('badge', 'rounded-pill', 'fw-semibold', ...statusClass.split(' '));
+                el.classList.add('badge', 'rounded-pill', 'fw-bold', ...statusClass.split(' '));
                 if (el.id === 'commissionStatus') {
                     el.classList.add('d-none', 'd-md-inline-flex', 'ms-3', 'px-3', 'py-2', 'fs-6', 'fs-md-4');
                 } else {

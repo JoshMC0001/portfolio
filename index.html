@@ -7,61 +7,75 @@
     <title>JoshMC</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" />
-    <link rel="stylesheet" href="style/style.css" />
+    <link rel="stylesheet" href="style/home.css" />
+    <link rel="stylesheet" href="style/nav.css">
     <link rel="shortcut icon" href="img/profile.png" type="image/x-icon" />
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 
 </head>
 
-<body style="padding-top: 70px;">
+<body class="bg-black">
     <div class="d-flex flex-column min-vh-100">
         <div id="navbarContainer"></div>
         <main class="flex-fill">
-            <section class="landing-screen d-flex justify-content-center align-items-center text-white text-center">
-                <div class="container">
-                    <h1>Loading custom Minecraft models…<br>Please wait while the world generates!</h1><br><br>
-                    <h4>View my MCModels Products</h4>
-                    <a href="mcmodels.html" class="btn bg-secondary mt-3" style="color: white;">MCModels</a>
-                </div>
-            </section>
-            <section class="models other-section py-5" style="background-color: rgb(75, 75, 75);">
-                <div class="container">
-                    <h1 class="mb-3" style="color: white;">Models</h1>
+            <div class="landing-wrapper">
+                <section class="landing-screen d-flex justify-content-center align-items-center text-white text-center">
+                    <div class="container">
+                        <h4 class="mt-5">View my MCModels Products</h4>
+                        <a href="mcmodels.html" class="btn bg-dark m-2 p-2 px-4 fw-semibold fs-5"
+                            style="color: white;">MCModels</a>
+                    </div>
+                </section>
+            </div>
+            <section class="models other-section py-5" style="background-color: rgb(20, 23, 26);">
+                <div class="container" style="max-width: 1600px;">
+                    <h1 class="mb-3 text-white text-center">Models</h1>
                     <div id="sketchfabContainer"></div>
                 </div>
             </section>
             <section class="mcmodels other-section py-5">
                 <div class="container">
-                    <h1 style="margin-bottom: 4%;">MCModels Products</h1>
-                    <div class="row row-cols-2 row-cols-md-5 g-4" id="card-container">
+                    <h1 style="margin-bottom: 4%;" class="text-white text-center">MCModels Products</h1>
+                    <div class="row row-cols-2 row-cols-md-3 g-4" id="card-container">
                     </div>
                     <div class="text-center mt-4">
-                        <a href="mcmodels.html" id="showMoreBtn" class="btn btn-outline-dark">Show More</a>
+                        <a href="mcmodels.html" id="showMoreBtn"
+                            class="btn btn-outline-white text-white fs-5 nav-hover">Show
+                            More</a>
                     </div>
                 </div>
             </section>
         </main>
-        <button id="goTopBtn" class="btn btn-secondary rounded-circle shadow"
-            style="position: fixed; bottom: 30px; right: 30px; display: none; z-index: 1000; width: 60px; height: 60px; font-size: 24px;">
-            <i class="bi bi-caret-up-fill"></i>
-        </button>
-        <footer class="bg-dark text-white py-4 mt-2">
-            <div class="container">
-                <div class="row gy-3 justify-content-center">
-                    <div class="col-md-4">
-                        <h5>Quick Links</h5>
-                        <ul class="list-unstyled">
-                            <li><a href="index.html" class="text-white text-decoration-none">Home</a></li>
-                            <li><a href="mcmodels.html" class="text-white text-decoration-none">MCModels</a></li>
-                            <li><a href="gallery.html" class="text-white text-decoration-none">Gallery</a></li>
-                        </ul>
+        <section class="about-me-section py-5 pb-4 bg-dark text-white">
+            <div class="container" style="max-width: 1200px;">
+                <div class="row align-items-center">
+                    <div class="col-md-5 text-center">
+                        <img src="img/me-render.png" alt="JoshMC" class="me-render img-fluid" style="width: 330px;">
                     </div>
-                    <div class="col-md-4">
-                        <h5>Social Media</h5>
-                        <a href="https://x.com/RealJoshMC" class="text-white fs-5" style="text-decoration: none;"><i
-                                class="bi bi-twitter-x" style="margin-right: 10px;"></i>@RealJoshMC</a><br>
-                        <a href="" class="text-white fs-5" style="text-decoration: none;"><i class="bi bi-discord"
-                                style="margin-right: 15px;"></i>joshmc0001</a>
+                    <div class="col-md-7">
+                        <h2 class="fw-bold mb-3">Hey, I'm <span style="color: #ffffff;">JoshMC</span></h2>
+                        <p class="lead mb-3">I create 3D models and custom assets for Minecraft Bedrock and Java.</p>
+                        <p>Whether it's furniture, cosmetics, or environment sets, I love designing things
+                            that players actually enjoy using.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <button id="goTopBtn" class="btn bg-dark rounded-circle shadow"
+            style="position: fixed; bottom: 30px; right: 30px; display: none; z-index: 1000; width: 60px; height: 60px; font-size: 24px;">
+            <i class="bi bi-caret-up-fill text-white"></i>
+        </button>
+        <footer class="bg-black text-white py-4 mt-2">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-8 text-center">
+                        <a href="https://x.com/RealJoshMC" class="text-white fs-6 me-4" style="text-decoration: none;">
+                            <i class="bi bi-twitter-x me-2"></i>@RealJoshMC
+                        </a>
+                        <a href="#" class="text-white fs-6" style="text-decoration: none;">
+                            <i class="bi bi-discord me-2"></i>joshmc0001
+                        </a>
                     </div>
                 </div>
                 <hr class="border-light mt-4">
@@ -95,6 +109,13 @@
 
                 goTopBtn.addEventListener('click', () => {
                     window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+
+                const currentPage = location.pathname.split("/").pop();
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    if (link.getAttribute('href') === currentPage) {
+                        link.classList.add('active');
+                    }
                 });
             });
     </script>

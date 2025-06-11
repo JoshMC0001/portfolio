@@ -26,11 +26,11 @@ async function loadPublicCards() {
     cards.forEach(card => {
       container.insertAdjacentHTML('beforeend', `
         <div class="col">
-          <div class="card h-100 d-flex flex-column">
+          <div class="card h-100 d-flex flex-column bg-black">
             <a href="${card.link || '#'}" target="_blank">
               <img src="${card.image}" class="card-img-top" alt="${card.title}">
-              <div class="card-body">
-                <h5 class="card-title">${card.title}</h5>
+              <div class="card-body p-0 pt-3">
+                <h5 class="card-title text-white text-start fs-6">${card.title}</h5>
               </div>
             </a>
           </div>
