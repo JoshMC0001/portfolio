@@ -36,14 +36,6 @@ body {
     text-decoration: none !important;
 }
 
-.landing-screen {
-    min-height: 400px;
-    background-image: url('../img/header.png');
-    background-repeat: repeat-x;
-    background-size: auto;
-    background-position: center;
-}
-
 .mcmodels a {
     text-decoration: none;
     color: rgb(109, 109, 109);
@@ -81,11 +73,6 @@ nav.pc {
     .mobile {
         display: none;
     }
-
-    .landing-screen {
-        min-height: 800px;
-    }
-
     .custom-padding {
         padding-left: 6rem;
         padding-right: 6rem;
@@ -106,15 +93,6 @@ nav.pc {
     .pc {
         display: none;
     }
-
-    .landing-screen {
-        min-height: 420px;
-        background-image: url('../img/header.png');
-        background-repeat: repeat-x;
-        background-size: cover;
-        background-position: center;
-    }
-
     iframe {
         height: 350px;
     }
