@@ -25,7 +25,7 @@
                         <a href="mcmodels.html" class="btn bg-dark m-2 p-2 px-4 fw-semibold fs-5"
                             style="color: white;">MCModels</a>
                     </div>
-                </section> 
+                </section>
             </div>
             <section class="models other-section py-5" style="background-color: rgb(20, 23, 26);">
                 <div class="container" style="max-width: 1600px;">
@@ -100,24 +100,26 @@
                 const goTopBtn = document.getElementById('goTopBtn');
 
                 window.addEventListener('scroll', () => {
-                    if (window.scrollY > 300) {
-                        goTopBtn.style.display = 'block';
-                    } else {
-                        goTopBtn.style.display = 'none';
-                    }
+                    goTopBtn.style.display = window.scrollY > 300 ? 'block' : 'none';
                 });
 
                 goTopBtn.addEventListener('click', () => {
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                 });
 
-                const currentPage = location.pathname.split("/").pop();
-                document.querySelectorAll('.nav-link').forEach(link => {
-                    if (link.getAttribute('href') === currentPage) {
-                        link.classList.add('active');
-                    }
-                });
+                setTimeout(() => {
+                    const currentPage = location.pathname.split("/").pop() || 'index.html';
+
+                    document.querySelectorAll('.nav-link').forEach(link => {
+                        if (link.getAttribute('href') === currentPage || link.getAttribute('href') === `#${location.hash.substring(1)}`) {
+                            link.classList.add('active');
+                        } else {
+                            link.classList.remove('active');
+                        }
+                    });
+                }, 0);
             });
+
     </script>
     <script src="js/home.js"></script>
     <script type="module" src="js/loadmodel.js"></script>
