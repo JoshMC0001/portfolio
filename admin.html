@@ -142,7 +142,6 @@
           <hr />
           <div class="row">
             <div class="col-12 col-md-4">
-              <h2 class="mb-4">Add New Card</h2>
               <form id="cardForm" class="g-3">
                 <input type="hidden" id="editIndex" />
                 <div class="mb-3">
@@ -216,12 +215,12 @@
       </section>
     </div>
     <div class="tab-pane fade" id="pills-model" role="tabpanel" aria-labelledby="pills-model-tab" tabindex="0">
-      <section class="models py-2">
+      <section class="models pt-5 px-5">
         <div class="container-fluid">
           <h1 class="mb-4">Sketchfab</h1>
           <hr />
           <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-4 px-3">
               <form id="modelForm" class="mb-4" onsubmit="return false;">
                 <input type="hidden" id="editModelId" />
                 <div class="mb-3">
@@ -264,7 +263,9 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-  <script src="js/admin.js"></script>
+  <script src="js/admin/admin.js"></script>
+  <script src="js/admin/shop.js"></script>
+  <script src="js/admin/gallery.js"></script>
   <script src="js/admin/sketchfab.js"></script>
   <script>
     const pageNames = ['home', 'mcmodels', 'gallery'];
@@ -325,7 +326,7 @@
       });
     });
   </script>
-  <script src="js/admin/gallery.js"></script>
+  
 </body>
 
 </html>

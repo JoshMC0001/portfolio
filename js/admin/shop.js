@@ -1,16 +1,3 @@
-const firebaseConfig = {
-    apiKey: "AIzaSyDCz7E4DSG9nanQ_fmM9fF8te6TXBpXUA0",
-    authDomain: "portfolio-5ed3f.firebaseapp.com",
-    projectId: "portfolio-5ed3f",
-    storageBucket: "portfolio-5ed3f.firebasestorage.app",
-    messagingSenderId: "127710028877",
-    appId: "1:127710028877:web:bde5c98f7283ee5dbc2804",
-    measurementId: "G-RBDZRPQ2H9"
-};
-
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
-
 const cardsRow = document.getElementById('cardsRow');
 const cardForm = document.getElementById('cardForm');
 const cardTitle = document.getElementById('cardTitle');
@@ -24,12 +11,16 @@ const saveOrderBtn = document.getElementById('saveOrderBtn');
 let cards = [];
 let editingDocId = null;
 
-let sortable = new Sortable(cardsRow, {
-    animation: 150,
-    onEnd() {
-        reorderCardsFromDOM();
-    }
-});
+function initSortable() {
+    new Sortable(cardsRow, {
+        animation: 150,
+        draggable: '.col',
+        handle: '.card',
+        onEnd() {
+            reorderCardsFromDOM();
+        }
+    });
+}
 
 function reorderCardsFromDOM() {
     const newOrder = [];
@@ -107,6 +98,8 @@ function renderCards() {
         col.appendChild(cardEl);
         cardsRow.appendChild(col);
     });
+
+    initSortable(); // Reinitialize sortable every time you render cards
 }
 
 function startEdit(index) {

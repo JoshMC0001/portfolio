@@ -1,3 +1,5 @@
+let sortable = null; // Declare globally
+
 async function uploadImage(file) {
     const formData = new FormData();
     formData.append('file', file);
@@ -37,38 +39,35 @@ async function renderModels() {
         const index = doc.id;
 
         const col = document.createElement("div");
-        col.className = "col-12 col-sm-6 col-md-4 col-lg-3";
+        col.className = "col col-12 col-sm-6 col-md-4 col-lg-3";
         col.dataset.id = index;
 
         col.innerHTML = `
-  <div class="card h-100 d-flex flex-column">
-    <div class="ratio ratio-16x9">
-      <iframe src="${model.link}" allow="autoplay; fullscreen; xr-spatial-tracking" allowfullscreen frameborder="0"></iframe>
-    </div>
-    <div class="card-body d-flex flex-column justify-content-between">
-      <div>
-        <h5 class="card-title">${model.title}</h5>
-        <p class="card-text">${model.tags?.join(", ") || ""}</p>
-      </div>
-      <div class="d-flex justify-content-between align-items-center mt-2">
-        <div>
-          <button class="btn btn-sm btn-primary me-2" onclick="editModel('${index}')">Edit</button>
-          <button class="btn btn-sm btn-danger" onclick="deleteModel('${index}')">Delete</button>
-        </div>
-        ${model.thumbnailUrl
+            <div class="card h-100 d-flex flex-column">
+                <div class="ratio ratio-16x9">
+                    <iframe src="${model.link}" allow="autoplay; fullscreen; xr-spatial-tracking" allowfullscreen frameborder="0"></iframe>
+                </div>
+                <div class="card-body d-flex flex-column justify-content-between">
+                    <div>
+                        <h5 class="card-title">${model.title}</h5>
+                        <p class="card-text">${model.tags?.join(", ") || ""}</p>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mt-2">
+                        <div>
+                            <button class="btn btn-sm btn-primary me-2" onclick="editModel('${index}')">Edit</button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteModel('${index}')">Delete</button>
+                        </div>
+                        ${model.thumbnailUrl
                 ? `<img src="${model.thumbnailUrl}" class="img-thumbnail" style="max-width: 100px;" alt="Thumbnail">`
-                : `<div class="bg-light text-center py-2 px-2" style="max-width: 100px;">No thumbnail</div>`
-            }
-      </div>
-    </div>
-  </div>
-`;
-
-
+                : `<div class="bg-light text-center py-2 px-2" style="max-width: 100px;">No thumbnail</div>`}
+                    </div>
+                </div>
+            </div>
+        `;
         row.appendChild(col);
     });
 
-    if (sortable) sortable.destroy();
+    if (sortable) sortable.destroy(); // Destroy previous instance
     sortable = new Sortable(row, {
         animation: 150
     });
