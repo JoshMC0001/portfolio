@@ -73,20 +73,6 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
     <script src="js/commissionStatus.js"></script>
     <script>
-        const goTopBtn = document.getElementById('goTopBtn');
-
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 300) {
-                goTopBtn.style.display = 'block';
-            } else {
-                goTopBtn.style.display = 'none';
-            }
-        });
-
-        goTopBtn.addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-
         fetch('navbar.html')
             .then(res => res.text())
             .then(data => {
@@ -97,24 +83,33 @@
                 const goTopBtn = document.getElementById('goTopBtn');
 
                 window.addEventListener('scroll', () => {
-                    if (window.scrollY > 300) {
-                        goTopBtn.style.display = 'block';
-                    } else {
-                        goTopBtn.style.display = 'none';
-                    }
+                    goTopBtn.style.display = window.scrollY > 300 ? 'block' : 'none';
                 });
 
                 goTopBtn.addEventListener('click', () => {
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                 });
 
-                // ✅ Highlight active nav link
-                const currentPage = location.pathname.split("/").pop();
-                document.querySelectorAll('.nav-link').forEach(link => {
-                    if (link.getAttribute('href') === currentPage) {
-                        link.classList.add('active');
-                    }
-                });
+                setTimeout(() => {
+                    const currentPath = location.pathname.endsWith('/')
+                        ? 'gallery.html'
+                        : location.pathname.split('/').pop();
+
+                    document.querySelectorAll('.nav-link').forEach(link => {
+                        const linkHref = link.getAttribute('href');
+                        const isActive =
+                            linkHref === currentPath ||
+                            linkHref === location.pathname ||
+                            linkHref === location.pathname + '.html' ||
+                            linkHref === location.hash;
+
+                        if (isActive) {
+                            link.classList.add('active');
+                        } else {
+                            link.classList.remove('active');
+                        }
+                    });
+                }, 10);
             });
     </script>
     <script src="js/gallery.js"></script>

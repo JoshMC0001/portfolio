@@ -108,18 +108,26 @@
                 });
 
                 setTimeout(() => {
-                    const currentPage = location.pathname.split("/").pop() || 'index.html';
+                    const currentPath = location.pathname.endsWith('/')
+                        ? 'index.html'
+                        : location.pathname.split('/').pop();
 
                     document.querySelectorAll('.nav-link').forEach(link => {
-                        if (link.getAttribute('href') === currentPage || link.getAttribute('href') === `#${location.hash.substring(1)}`) {
+                        const linkHref = link.getAttribute('href');
+                        const isActive =
+                            linkHref === currentPath ||
+                            linkHref === location.pathname ||
+                            linkHref === location.pathname + '.html' ||
+                            linkHref === location.hash;
+
+                        if (isActive) {
                             link.classList.add('active');
                         } else {
                             link.classList.remove('active');
                         }
                     });
-                }, 0);
+                }, 10);
             });
-
     </script>
     <script src="js/home.js"></script>
     <script type="module" src="js/loadmodel.js"></script>
