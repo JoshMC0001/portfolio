@@ -7,41 +7,19 @@ const firebaseConfig = {
     appId: "1:127710028877:web:bde5c98f7283ee5dbc2804",
     measurementId: "G-RBDZRPQ2H9"
 };
-
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
-
 const auth = firebase.auth();
-
 auth.onAuthStateChanged(user => {
     if (!user) {
         window.location.href = "login.html";
     }
 });
-
 function logout() {
     auth.signOut().then(() => {
         window.location.href = "login.html";
     });
 }
-
-document.addEventListener('DOMContentLoaded', () => {
-    const logoutBtn = document.getElementById('logoutBtn');
-
-    if (logoutBtn) {
-        logoutBtn.addEventListener('click', () => {
-            firebase.auth().signOut()
-                .then(() => {
-                    window.location.href = 'login.html';
-                })
-                .catch((error) => {
-                    console.error('Logout error:', error);
-                    alert('Logout failed. Please try again.');
-                });
-        });
-    }
-});
-
 function fetchCardCountFromFirestore() {
     db.collection("mcmodels_cards").get()
         .then((querySnapshot) => {
@@ -53,9 +31,7 @@ function fetchCardCountFromFirestore() {
             document.getElementById("totalCardCount").textContent = "Error";
         });
 }
-
 fetchCardCountFromFirestore();
-
 function updateGalleryImageCount() {
     const totalViewsEl = document.getElementById('totalViews');
     db.collection("gallery").get().then(snapshot => {
@@ -66,19 +42,11 @@ function updateGalleryImageCount() {
         totalViewsEl.textContent = "Error";
     });
 }
-
-document.addEventListener('DOMContentLoaded', () => {
-    updateGalleryImageCount();
-});
-
-
 const galleryRow = document.getElementById('galleryRow');
-
 function renderGalleryCard(doc) {
     const data = doc.data();
     const cardCol = document.createElement('div');
     cardCol.className = 'col';
-
     cardCol.innerHTML = `
     <div class="card h-100">
       <img src="${data.imageUrl || 'img/default.png'}" class="card-img-top" alt="${data.title || 'Gallery Image'}" />
@@ -90,7 +58,6 @@ function renderGalleryCard(doc) {
     `;
     galleryRow.appendChild(cardCol);
 }
-
 function loadGallery() {
     galleryRow.innerHTML = 'Loading...';
     db.collection('gallery').get()
@@ -108,13 +75,10 @@ function loadGallery() {
             galleryRow.innerHTML = `<p>Error loading gallery: ${error.message}</p>`;
         });
 }
-
 loadGallery();
-
 const latestCardTitle = document.getElementById('latestCardTitle');
 const latestCardImage = document.getElementById('latestCardImage');
 const latestCardLink = document.getElementById('latestCardLink');
-
 function fetchLatestMCModel() {
     db.collection('mcmodels_cards')
         .orderBy('order')
@@ -132,22 +96,17 @@ function fetchLatestMCModel() {
             console.error("Error fetching latest product:", error);
         });
 }
-
 fetchLatestMCModel();
-
 const commissionToggle = document.getElementById('commissionToggle');
-
 db.collection('siteSettings').doc('commissions').get().then(doc => {
     if (doc.exists) {
         commissionToggle.checked = doc.data().open;
     }
 });
-
 commissionToggle.addEventListener('change', () => {
     const isOpen = commissionToggle.checked;
     db.collection('siteSettings').doc('commissions').set({ open: isOpen });
 });
-
 function updateGalleryLikesCount() {
     const totalLikesEl = document.getElementById('totalLikes');
     db.collection("gallery").get().then(snapshot => {
@@ -164,7 +123,20 @@ function updateGalleryLikesCount() {
         totalLikesEl.textContent = "Error";
     });
 }
-
 document.addEventListener('DOMContentLoaded', () => {
+    const logoutBtn = document.getElementById('logoutBtn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', () => {
+            firebase.auth().signOut()
+                .then(() => {
+                    window.location.href = 'login.html';
+                })
+                .catch((error) => {
+                    console.error('Logout error:', error);
+                    alert('Logout failed. Please try again.');
+                });
+        });
+    }
+    updateGalleryImageCount();
     updateGalleryLikesCount();
 });
