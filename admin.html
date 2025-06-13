@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -18,15 +19,18 @@
       color: white;
       border: 1px solid white;
     }
+
     .nav-pills .nav-link.active {
       background-color: white;
       color: black;
     }
+
     .custom-margin {
       margin-top: 50px;
     }
   </style>
 </head>
+
 <body>
   <nav class="navbar navbar-dark bg-dark navbar-expand-lg">
     <div class="container-fluid">
@@ -62,11 +66,11 @@
             </button>
           </li>
           <li class="nav-item d-lg-none mt-2 text-center">
-            <button class="btn btn-outline-light w-100" type="button">Logout</button>
+            <button id="logoutBtn" class="btn btn-outline-light w-100" type="button">Logout</button>
           </li>
         </ul>
       </div>
-      <button class="btn btn-outline-light d-none d-lg-block" type="button">Logout</button>
+      <button id="logoutBtn" class="btn btn-outline-light d-none d-lg-block" type="button">Logout</button>
     </div>
   </nav>
   <div class="tab-content" id="pills-tabContent">
@@ -311,5 +315,6 @@
       });
     });
   </script>
-  </body>
+</body>
+
 </html>
