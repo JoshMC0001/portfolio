@@ -15,11 +15,6 @@ auth.onAuthStateChanged(user => {
         window.location.href = "login.html";
     }
 });
-function logout() {
-    auth.signOut().then(() => {
-        window.location.href = "login.html";
-    });
-}
 function fetchCardCountFromFirestore() {
     db.collection("mcmodels_cards").get()
         .then((querySnapshot) => {
@@ -127,9 +122,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const logoutBtn = document.getElementById('logoutBtn');
     if (logoutBtn) {
         logoutBtn.addEventListener('click', () => {
-            firebase.auth().signOut()
+            auth.signOut()
                 .then(() => {
-                    window.location.href = 'login.html';
+                    window.location.href = "login.html";
                 })
                 .catch((error) => {
                     console.error('Logout error:', error);
