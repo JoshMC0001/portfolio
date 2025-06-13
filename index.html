@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -11,9 +10,7 @@
     <link rel="stylesheet" href="style/nav.css">
     <link rel="shortcut icon" href="img/profile.png" type="image/x-icon" />
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
-
 </head>
-
 <body class="bg-black">
     <div class="d-flex flex-column min-vh-100">
         <div id="navbarContainer"></div>
@@ -28,7 +25,7 @@
                 </section>
             </div>
             <section class="models other-section py-5" style="background-color: rgb(20, 23, 26);">
-                <div class="container" style="max-width: 1600px;">
+                <div class="container" style="max-width: 1200px;">
                     <h1 class="mb-3 text-white text-center">Models</h1>
                     <div id="sketchfabContainer"></div>
                 </div>
@@ -36,7 +33,7 @@
             <section class="mcmodels other-section py-5">
                 <div class="container">
                     <h1 style="margin-bottom: 4%;" class="text-white text-center">MCModels Products</h1>
-                    <div class="row row-cols-2 row-cols-md-3 g-4" id="card-container">
+                    <div class="row row-cols-2 row-cols-md-4 g-4" id="card-container">
                     </div>
                     <div class="text-center mt-4">
                         <a href="mcmodels.html" id="showMoreBtn"
@@ -61,7 +58,6 @@
                 </div>
             </div>
         </section>
-
         <button id="goTopBtn" class="btn bg-dark rounded-circle shadow"
             style="position: fixed; bottom: 30px; right: 30px; display: none; z-index: 1000; width: 60px; height: 60px; font-size: 24px;">
             <i class="bi bi-caret-up-fill text-white"></i>
@@ -85,7 +81,6 @@
             </div>
         </footer>
     </div>
-
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
     <script src="js/commissionStatus.js"></script>
@@ -94,24 +89,18 @@
             .then(res => res.text())
             .then(data => {
                 document.getElementById('navbarContainer').innerHTML = data;
-
                 updateCommissionStatus();
-
                 const goTopBtn = document.getElementById('goTopBtn');
-
                 window.addEventListener('scroll', () => {
                     goTopBtn.style.display = window.scrollY > 300 ? 'block' : 'none';
                 });
-
                 goTopBtn.addEventListener('click', () => {
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                 });
-
                 setTimeout(() => {
                     const currentPath = location.pathname.endsWith('/')
                         ? 'index.html'
                         : location.pathname.split('/').pop();
-
                     document.querySelectorAll('.nav-link').forEach(link => {
                         const linkHref = link.getAttribute('href');
                         const isActive =
@@ -119,7 +108,6 @@
                             linkHref === location.pathname ||
                             linkHref === location.pathname + '.html' ||
                             linkHref === location.hash;
-
                         if (isActive) {
                             link.classList.add('active');
                         } else {
@@ -133,5 +121,4 @@
     <script type="module" src="js/loadmodel.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>

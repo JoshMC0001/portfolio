@@ -7,22 +7,18 @@ const firebaseConfig = {
   appId: "1:127710028877:web:bde5c98f7283ee5dbc2804",
   measurementId: "G-RBDZRPQ2H9"
 };
-
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
-
 async function loadPublicCards() {
   const container = document.getElementById('card-container');
   try {
     const snapshot = await db.collection('mcmodels_cards').orderBy('order', 'asc').get();
     const cards = snapshot.docs.map(doc => doc.data());
-
     container.innerHTML = '';
     if (cards.length === 0) {
       container.innerHTML = '<p class="text-center text-muted">No cards found.</p>';
       return;
     }
-
     cards.forEach(card => {
       container.insertAdjacentHTML('beforeend', `
         <div class="col">
@@ -42,14 +38,11 @@ async function loadPublicCards() {
     container.innerHTML = '<p class="text-center text-danger">Failed to load cards.</p>';
   }
 }
-
 async function incrementPageView() {
   let path = window.location.pathname;
   if (path === "/mcmodels" || path === "/mcmodels.html") path = "mcmodels";
   const page = path.replace(/\//g, "_");
-
   const pageRef = db.collection("pageViews").doc(page);
-
   try {
     const doc = await pageRef.get();
     if (doc.exists) {
@@ -63,7 +56,6 @@ async function incrementPageView() {
     console.error("Error updating view count:", error);
   }
 }
-
 window.addEventListener('DOMContentLoaded', () => {
   loadPublicCards();
   incrementPageView();

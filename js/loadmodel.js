@@ -7,23 +7,18 @@ const firebaseConfig = {
   appId: "1:127710028877:web:bde5c98f7283ee5dbc2804",
   measurementId: "G-RBDZRPQ2H9"
 };
-
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
-
 const db = firebase.firestore();
 const mainContainer = document.getElementById("sketchfabContainer");
-
 function extractUID(link) {
   const match = link.match(/sketchfab\.com\/models\/([\w-]+)/);
   return match ? match[1] : "";
 }
-
 function createIframe(link) {
   const uid = extractUID(link);
   const embedURL = `https://sketchfab.com/models/${uid}/embed`;
-
   const iframe = document.createElement("iframe");
   iframe.src = embedURL;
   iframe.width = "100%";
@@ -33,10 +28,8 @@ function createIframe(link) {
   iframe.allowFullscreen = true;
   iframe.setAttribute("mozallowfullscreen", "true");
   iframe.setAttribute("webkitallowfullscreen", "true");
-
   return iframe;
 }
-
 async function fetchThumbnail(sketchfabUrl) {
   const oEmbedUrl = `https://sketchfab.com/oembed?url=${encodeURIComponent(sketchfabUrl)}`;
   try {
@@ -49,10 +42,8 @@ async function fetchThumbnail(sketchfabUrl) {
     return null;
   }
 }
-
 async function loadSketchfabModel() {
   const snapshot = await db.collection("sketchfabModels").orderBy("order", "asc").get();
-
   if (!snapshot.empty) {
     const models = await Promise.all(
       snapshot.docs.map(async doc => {
@@ -61,15 +52,12 @@ async function loadSketchfabModel() {
         return { id: doc.id, ...data, thumbnail };
       })
     );
-
     const firstModel = createIframe(models[0].link);
     mainContainer.innerHTML = "";
     mainContainer.appendChild(firstModel);
-
     const thumbBar = document.createElement("div");
     thumbBar.className = "d-flex overflow-auto mt-2 py-2 px-2";
     thumbBar.style.scrollSnapType = "x mandatory";
-
     models.forEach((model, index) => {
       const thumb = document.createElement("img");
       thumb.src = model.thumbnail;
@@ -82,7 +70,6 @@ async function loadSketchfabModel() {
       thumb.addEventListener("click", () => {
         mainContainer.innerHTML = "";
         mainContainer.appendChild(createIframe(model.link));
-
         document.querySelectorAll(".custom-thumbnail").forEach(img => {
           img.classList.remove("active-thumbnail");
         });
@@ -93,5 +80,4 @@ async function loadSketchfabModel() {
     mainContainer.parentElement.appendChild(thumbBar);
   }
 }
-
 loadSketchfabModel();

@@ -20,7 +20,7 @@ async function loadPublicCards() {
         const allCards = snapshot.docs.map(doc => doc.data());
 
         const isMobile = window.innerWidth < 767;
-        const maxCards = isMobile ? 4 : 6;
+        const maxCards = isMobile ? 4 : 8;
         const visibleCards = allCards.slice(0, maxCards);
 
         container.innerHTML = '';
