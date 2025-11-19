@@ -105,7 +105,7 @@ function renderImageGrid() {
             }
         });
         container.appendChild(imgEl);
-        container.appendChild(likeBtn);
+        //container.appendChild(likeBtn);
         col.appendChild(container);
         galleryGrid.appendChild(col);
     });
