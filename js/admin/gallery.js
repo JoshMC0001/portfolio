@@ -176,6 +176,7 @@
             }
 
             if (docId) {
+                // Editing existing image
                 const imgIndex = galleryImages.findIndex(i => i.id === docId);
                 if (imgIndex === -1) throw new Error('Image not found.');
 
@@ -189,10 +190,14 @@
                 };
 
                 await db.collection('gallery').doc(docId).update(updatedData);
-
                 galleryImages[imgIndex] = { ...img, ...updatedData };
                 resetForm();
             } else {
+                // New image upload
+
+                // Shift existing images' order forward
+                galleryImages.forEach(img => img.order++);
+
                 if (!file) {
                     alert('Please select an image to upload.');
                     saveGalleryOrderBtn.disabled = false;
@@ -200,21 +205,20 @@
                     return;
                 }
 
-                imageUrl = await uploadImage(file);
-
                 const newImage = {
                     title,
                     tags,
                     link,
                     imageUrl,
-                    //order: galleryImages.length,
-                    order: 0,
+                    order: 0, // front
                     views: 0,
                 };
 
                 const docRef = await db.collection('gallery').add(newImage);
                 newImage.id = docRef.id;
-                galleryImages.upshift(newImage);
+
+                // Add to the front of galleryImages
+                galleryImages.unshift(newImage);
             }
 
             renderGallery();
@@ -338,5 +342,3 @@
     });
 
 })();
-
-
