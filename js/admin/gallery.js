@@ -207,13 +207,14 @@
                     tags,
                     link,
                     imageUrl,
-                    order: galleryImages.length,
+                    //order: galleryImages.length,
+                    order: 0,
                     views: 0,
                 };
 
                 const docRef = await db.collection('gallery').add(newImage);
                 newImage.id = docRef.id;
-                galleryImages.push(newImage);
+                galleryImages.upshift(newImage);
             }
 
             renderGallery();
