@@ -1,0 +1,19 @@
+<!DOCTYPE html><html lang="en"><head><title>JoshMC · Gallery</title><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@700;800&family=Figtree:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+<link rel="stylesheet" href="style/site.css"><link rel="icon" href="img/profile-sm.png"></head>
+<body data-page="gallery"><div id="nav"></div>
+<main class="wrap"><div class="page-title"><h1>Gallery</h1><p>Select an image to view it full size. Use the arrow keys to move between images.</p></div>
+<div class="tools"><input id="q" class="search" type="search" placeholder="Search by title or tag" aria-label="Search gallery"><div class="chips" id="chips"></div></div><div class="masonry" id="grid"></div>
+<div class="more"><button class="btn" id="moreBtn" hidden>Load more</button></div></main>
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Image viewer">
+<button class="ic x" id="lbClose" aria-label="Close"><i class="bi bi-x-lg"></i></button>
+<div class="stage"><button class="ic prev" id="lbPrev" aria-label="Previous"><i class="bi bi-chevron-left"></i></button>
+<img id="lbImg" alt=""><button class="ic next" id="lbNext" aria-label="Next"><i class="bi bi-chevron-right"></i></button></div>
+<div class="bar"><div><b id="lbTitle"></b><br><small id="lbMeta"></small><div class="lbtags" id="lbTags"></div></div>
+<button class="ic" id="lbLike" aria-label="Like"><i class="bi bi-heart"></i></button><a class="btn" id="lbLink" target="_blank" rel="noopener" hidden>Open link</a></div></div>
+<div id="foot"></div><button id="top" class="ic" aria-label="Back to top"><i class="bi bi-arrow-up"></i></button>
+<script>const t=document.getElementById("top");addEventListener("scroll",()=>t.classList.toggle("show",scrollY>400));t.onclick=()=>scrollTo({top:0,behavior:"smooth"})</script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script src="js/firebase.js"></script><script src="js/pages.js"></script><script src="js/core.js"></script><script src="js/gallery.js"></script></body></html>
