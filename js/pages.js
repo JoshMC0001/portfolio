@@ -15,8 +15,10 @@ const PAGES = [
           { k: 'brand', l: 'Site name', type: 'text', sel: '.nav .brand b', def: 'JoshMC' },
           { k: 'nav_home', l: 'Menu: Home', type: 'text', sel: '#nav-home', def: 'Home' },
           { k: 'nav_mcmodels', l: 'Menu: Shop', type: 'text', sel: '#nav-mcmodels', def: 'Shop' },
+          { k: 'nav_projects', l: 'Menu: Projects', type: 'text', sel: '#nav-projects', def: 'Projects' },
           { k: 'nav_gallery', l: 'Menu: Gallery', type: 'text', sel: '#nav-gallery', def: 'Gallery' },
           { k: 'hide_nav_mcmodels', l: 'Show "Shop" in the menu', type: 'show', sel: '#nav-mcmodels' },
+          { k: 'hide_nav_projects', l: 'Show "Projects" in the menu', type: 'show', sel: '#nav-projects' },
           { k: 'hide_nav_gallery', l: 'Show "Gallery" in the menu', type: 'show', sel: '#nav-gallery' },
           { k: 'hide_status', l: 'Show the commissions open/closed badge', type: 'show', sel: '#status' }
         ]
@@ -36,7 +38,7 @@ const PAGES = [
       },
       {
         t: 'Look', f: [
-          { k: 'accent', l: 'Accent colour (buttons, highlights, links)', type: 'color', def: '#f2b98d' }
+          { k: 'accent', l: 'Accent colour (buttons, highlights, links)', type: 'color', def: '#798496' }
         ]
       }
     ]
@@ -66,9 +68,24 @@ const PAGES = [
         ]
       },
       {
+        t: 'Featured projects', hint: 'Projects marked "Featured" in the admin show here. If none are marked, your newest projects show instead.', f: [
+          { k: 'sec_projects_title', l: 'Section title', type: 'text', sel: '#sec-projects h2', def: 'Featured projects' },
+          { k: 'home_more_projects', l: '"View all" link text', type: 'text', sel: '#moreP', def: 'View all' },
+          { k: 'home_projects_count', l: 'How many projects to show', type: 'num', def: '3' },
+          { k: 'hide_sec_projects', l: 'Show this section', type: 'show', sel: '#sec-projects' }
+        ]
+      },
+      {
         t: '3D models', f: [
           { k: 'sec_models_title', l: 'Section title', type: 'text', sel: '#sec-models h2', def: '3D models' },
           { k: 'hide_sec_models', l: 'Show this section', type: 'show', sel: '#sec-models' }
+        ]
+      },
+      {
+        t: 'Latest from X', hint: 'By default your newest posts show up here automatically. To show one specific post instead, paste its link below. Clear the box to go back to automatic.', f: [
+          { k: 'sec_x_title', l: 'Section title', type: 'text', sel: '#sec-x h2', def: 'Latest from X' },
+          { k: 'x_post', l: 'Show one specific post (paste the post link, optional)', type: 'text', def: 'https://x.com/RealJoshMC/status/…' },
+          { k: 'hide_sec_x', l: 'Show this section', type: 'show', sel: '#sec-x' }
         ]
       },
       {
@@ -103,6 +120,19 @@ const PAGES = [
           { k: 'shop_sub', l: 'Text under the title', type: 'text', sel: '.page-title p', def: 'MCModels products you can use in your own world.' },
           { k: 'hide_shop_head', l: 'Show the title and text', type: 'show', sel: '.page-title' },
           { k: 'hide_shop_search', l: 'Show the search box', type: 'show', sel: '#q' }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'projects', name: 'Projects', href: 'projects.html', groups: [
+      {
+        t: 'Projects page', f: [
+          { k: 'projects_title', l: 'Page title', type: 'text', sel: '.page-title h1', def: 'Projects' },
+          { k: 'projects_sub', l: 'Text under the title', type: 'text', sel: '.page-title p', def: "Add-ons, packs and more for Minecraft Bedrock and Hytale." },
+          { k: 'hide_projects_head', l: 'Show the title and text', type: 'show', sel: '.page-title' },
+          { k: 'hide_projects_stats', l: 'Show the project / download counts', type: 'show', sel: '#pstats' },
+          { k: 'hide_projects_search', l: 'Show the search box', type: 'show', sel: '#q' }
         ]
       }
     ]

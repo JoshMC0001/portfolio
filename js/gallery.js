@@ -1,3 +1,5 @@
+function initGallery() {
+let alive = true; leave.push(() => { alive = false; document.body.style.overflow = ''; });
 const PER = 24, $ = id => document.getElementById(id);
 let all = [], list = [], shown = 0, cur = 0, tag = '', q = '';
 const tagsOf = i => (i.tags || '').split(',').map(t => t.trim().toLowerCase()).filter(Boolean);
@@ -10,7 +12,8 @@ function filter() {
 function more() {
   list.slice(shown, shown + PER).forEach((it, k) => {
     const f = document.createElement('figure'), idx = shown + k;
-    f.tabIndex = 0; f.innerHTML = `<img src="${esc(cdn(it.imageUrl, 600))}" alt="${esc(it.title)}" loading="lazy" decoding="async"><figcaption>${esc(it.title)}</figcaption>`;
+    f.tabIndex = 0; f.innerHTML = `<img src="${esc(cdn(it.imageUrl, 600))}" alt="${esc(it.title)}" loading="lazy" decoding="async">${it.createdAt && Date.now() - it.createdAt < 14 * 864e5 ? '<em class="new">NEW</em>' : ''}<figcaption>${esc(it.title)}</figcaption>`;
+    f.style.setProperty('--i', k % 12); f.classList.add('pop');
     f.onclick = () => open(idx); f.onkeydown = e => e.key === 'Enter' && open(idx);
     $('grid').appendChild(f);
   });
@@ -20,14 +23,16 @@ $('moreBtn').onclick = more;
 
 // Tag chips: most-used first, with counts. The selected tag is kept in the URL (#tag) so a filtered view can be shared.
 function setTag(t) {
-  tag = t; history.replaceState(null, '', t ? '#' + encodeURIComponent(t) : location.pathname);
-  $('chips').querySelectorAll('button').forEach(b => b.classList.toggle('on', b.dataset.t === t)); filter();
+  tag = t; history.replaceState(null, '', t ? '#/gallery/' + encodeURIComponent(t) : '#/gallery');
+  $('chips').querySelectorAll('button').forEach(b => b.classList.toggle('on', b.dataset.t === t));  $('flabel').textContent = t || 'All tags'; setFilters(false); filter();
 }
+const setFilters = on => { $('tools').classList.toggle('open', on); $('fbtn').setAttribute('aria-expanded', on); };
 function chips() {
   const n = {}; all.forEach(i => tagsOf(i).forEach(t => n[t] = (n[t] || 0) + 1));
   const tags = Object.entries(n).sort((a, b) => b[1] - a[1]);
   if (!tags.length) return;
   $('chips').innerHTML = [['', all.length], ...tags].map(([t, c]) => `<button data-t="${esc(t)}">${t ? esc(t) : 'All'}<small>${c}</small></button>`).join('');
+  $('fbtn').hidden = false; $('fbtn').onclick = () => setFilters(!$('tools').classList.contains('open'));
   $('chips').onclick = e => { const b = e.target.closest('button'); if (b) setTag(b.dataset.t); };
 }
 $('q').oninput = e => { q = e.target.value.trim().toLowerCase(); filter(); };
@@ -36,11 +41,11 @@ $('q').oninput = e => { q = e.target.value.trim().toLowerCase(); filter(); };
 const lb = $('lb'), liked = id => localStorage.getItem('liked-' + id) === 'true';
 function open(i) {
   cur = (i + list.length) % list.length; const it = list[cur];
-  $('lbImg').src = cdn(it.imageUrl, 1800); $('lbImg').alt = it.title; $('lbTitle').textContent = it.title;
+  $('lbImg').src = cdn(it.imageUrl, 1200); $('lbImg').alt = it.title; $('lbTitle').textContent = it.title;
   $('lbMeta').textContent = `${cur + 1} of ${list.length}`;
   $('lbTags').innerHTML = tagsOf(it).map(t => `<button data-t="${esc(t)}">${esc(t)}</button>`).join('');
   $('lbLink').hidden = !it.link; if (it.link) $('lbLink').href = it.link;
-  [1, -1].forEach(d => { const n = list[(cur + d + list.length) % list.length]; if (n) new Image().src = cdn(n.imageUrl, 1800); });
+  [1, -1].forEach(d => { const n = list[(cur + d + list.length) % list.length]; if (n) new Image().src = cdn(n.imageUrl, 1200); });
   heart(it); lb.classList.add('open'); document.body.style.overflow = 'hidden'; $('lbClose').focus();
 }
 const heart = it => {
@@ -54,7 +59,7 @@ $('lbClose').onclick = close; $('lbPrev').onclick = () => open(cur - 1); $('lbNe
 $('lbTags').onclick = e => { const b = e.target.closest('button'); if (b) { close(); setTag(b.dataset.t); scrollTo({ top: 0, behavior: 'smooth' }); } };
 lb.onclick = e => { if (e.target === lb || e.target.classList.contains('stage')) close(); };
 addEventListener('keydown', e => {
-  if (!lb.classList.contains('open')) return;
+  if (!alive || !lb.classList.contains('open')) return;
   if (e.key === 'Escape') close(); if (e.key === 'ArrowLeft') open(cur - 1); if (e.key === 'ArrowRight') open(cur + 1);
 });
 let x0; lb.ontouchstart = e => x0 = e.touches[0].clientX;
@@ -66,8 +71,15 @@ $('lbLike').onclick = async () => {
   db.collection('gallery').doc(it.id).update({ likes: firebase.firestore.FieldValue.increment(n) }).catch(() => { });
 };
 
-db.collection('gallery').orderBy('order').get().then(s => {
-  all = s.docs.map(d => ({ id: d.id, ...d.data() })).filter(i => !i.hidden); chips();
-  const h = decodeURIComponent(location.hash.slice(1)).toLowerCase();
+col('gallery').then(s => {
+  all = s.filter(i => !i.hidden); chips();
+  const h = decodeURIComponent(location.hash.split('/')[2] || '').toLowerCase();
   setTag(all.some(i => tagsOf(i).includes(h)) ? h : '');
 }).catch(() => $('grid').innerHTML = '<p class="empty">Could not load images. Refresh to try again.</p>');
+
+// "Surprise me": opens a random image
+$('surprise').onclick = () => { if (list.length) open(Math.floor(Math.random() * list.length)); };
+// Double-click / double-tap the big image to like it
+$('lbImg').ondblclick = () => { if (!liked(list[cur].id)) $('lbLike').click(); const h = $('lbBurst'); h.classList.remove('go'); void h.offsetWidth; h.classList.add('go'); };
+
+}

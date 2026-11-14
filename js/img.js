@@ -1,0 +1,1 @@
+const IMG = {"profile-sm.png": "img/profile-sm.png", "profile-lg.webp": "img/profile-lg.webp", "me-render.webp": "img/me-render.webp", "thumbnail.png": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Crect width='300' height='300' fill='%23181c22'/%3E%3C/svg%3E"};
